@@ -1,0 +1,2211 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>KẾT QUẢ TEST</title>
+  <style>
+    /* Common styles */
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f7fa; }
+    .container { padding: 20px; }
+    .tab-buttons { display: flex; gap: 10px; margin-bottom: 15px; }
+    .tab-buttons button {
+      padding: 10px 20px; border: none; border-radius: 6px;
+      background: #34495e; color: #fff; cursor: pointer;
+    }
+    .tab-buttons button.active { background: #27ae60; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    /* Tab 1: Phán định sản phẩm */
+    .app-container { display: flex; flex-direction: row; }
+    .left, .right { padding: 20px; overflow-y: auto; }
+    .left { width: 40%; border-right: 2px solid #ccc; position: relative; }
+    .right { width: 60%; }
+    label { font-weight: bold; display: block; margin: 10px 0 5px; }
+    input, select { padding: 5px; width: 200px; margin-bottom: 10px; }
+    button { padding: 8px 16px; margin: 6px; border-radius: 6px; border: 1px solid #333; font-size: 14px; cursor: pointer; }
+    #okBtn { color: green; }
+    #ngBtn { color: red; }
+    #error { color: red; font-weight: bold; margin-top: 10px; }
+    table { margin-top: 10px; border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 6px; text-align: center; }
+    th { background: #eee; }
+    .duplicate { background-color: #ffb3b3; }
+    #loginScreen { margin-top: 50px; text-align: center; }
+    .mainApp { display: none; }
+    #clearLogBtn, #resetDataBtn { position: absolute; top: 12px; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; }
+    #clearLogBtn { right: 120px; background: #3498db; color: white; }
+    #clearLogBtn:hover { background: #2980b9; }
+    #resetDataBtn { right: 12px; background: #e74c3c; color: white; }
+    #resetDataBtn:hover { background: #c0392b; }
+    .stat { margin-top: 8px; font-size: 14px; }
+    
+    /* Tab 2: Lọc dữ liệu */
+    .filter-container { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+    .filter-item { display: flex; flex-direction: column; }
+    .filter-item label { font-size: 13px; color: #555; margin-bottom: 4px; }
+    .filter-item input, .filter-item select {
+      padding: 8px 10px; border-radius: 6px; border: 1px solid #ccc; min-width: 150px; background: #fff;
+    }
+    .button-container { display: flex; gap: 10px; margin-bottom: 20px; }
+    .btn-filter {
+      background: #34495e; color: #fff; padding: 10px 20px; border: none; border-radius: 6px; font-size: 14px; cursor: pointer;
+    }
+    .btn-filter:hover { background: #2c3e50; }
+    .btn-download {
+      background: #27ae60; color: #fff; padding: 10px 20px; border: none; border-radius: 6px; font-size: 14px; cursor: pointer;
+    }
+    .btn-download:hover { background: #1e874b; }
+    
+    /* Tab 3: Biểu đồ */
+    .chart-container { margin-bottom: 30px; }
+    .chart-container h3 { margin-bottom: 10px; }
+    canvas { max-width: 100%; background: white; border: 1px solid #ddd; border-radius: 4px; padding: 10px; }
+    
+    /* Thêm style cho thông báo */
+    .sync-status {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      display: none;
+    }
+    .sync-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .sync-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    /* Style cho in QR Code */
+    .qr-print-container {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border: 2px solid #333;
+      border-radius: 8px;
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .qr-content {
+      margin: 10px 0;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .qr-code {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 15px 0;
+      padding: 10px;
+      border: 1px dashed #ccc;
+      background: #f9f9f9;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    /* Tab 4: Cấu hình máy in */
+    .printer-config-panel {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 10px 0;
+      border: 1px solid #dee2e6;
+    }
+
+    .printer-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .printer-status {
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .status-connected {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .status-disconnected {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .status-testing {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeaa7;
+    }
+
+    .config-section {
+      margin: 15px 0;
+      padding: 15px;
+      background: white;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+
+    .usb-device-info {
+      background: #e8f4fd;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+      border: 1px solid #b8daff;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/clusterize.js@0.18.1/clusterize.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+</head>
+<body>
+  <div style="margin-top:20px; display:flex; gap:10px; ">
+    <img src="logo.png" alt="Logo" style="height: 100px; width: auto; margin-right: 20px;">
+    <h2>📊 KẾT QUẢ TEST</h2>
+  </div>
+
+  <div class="tab-buttons">
+    <button id="btnTab1" class="active" onclick="showTab(1)">📝 Phán định sản phẩm</button>
+    <button id="btnTab2" onclick="showTab(2)">📑 Dữ liệu</button>
+    <button id="btnTab3" onclick="showTab(3)">📈 Biểu đồ</button>
+    <button id="btnTab4" onclick="showTab(4)">🖨️ Cấu hình Máy in</button>
+  </div>
+  
+  <!-- Tab 1: Phán định sản phẩm -->
+  <div id="tab1" class="tab-content active">
+    <!-- Màn hình đăng nhập -->
+    <div id="loginScreen">
+      <h2>Đăng nhập</h2>
+      <label for="loginUser">Tên đăng nhập</label>
+      <input type="text" id="loginUser" placeholder="Nhập mã số nhân viên">
+
+      <label for="loginPass">Mật khẩu</label>
+      <input type="password" id="loginPass" placeholder="Nhập mật khẩu">
+
+      <label for="shift">Chọn ca</label>
+      <select id="shift">
+        <option value="Ca 1 (06:00-14:00)">Ca 1 (06:00 - 14:00)</option>
+        <option value="Ca 2 (14:00-22:00)">Ca 2 (14:00 - 22:00)</option>
+        <option value="Ca 1 dài (06:00-18:00)">Ca 1 dài (06:00 - 18:00)</option>
+        <option value="Ca 2 dài (18:00-06:00)">Ca 2 dài (18:00 - 06:00 hôm sau)</option>
+        <option value="Ca HC (08:00-16:30)">Ca HC (08:00 - 16:30)</option>
+      </select>
+
+      <label for="wo">Số lệnh sản xuất (WO)</label>
+      <input type="text" id="wo" placeholder="Nhập số WO" oninput="this.value=this.value.toUpperCase()">
+
+      <br>
+      <button onclick="login()">Đăng nhập</button>
+      <p id="loginError" style="color:red;"></p>
+    </div>
+
+    <!-- Giao diện chính -->
+    <div id="mainApp" class="mainApp app-container">
+      <!-- Cột trái -->
+      <div class="left">
+        <h2>Phán định sản phẩm</h2>
+        <button id="clearLogBtn" onclick="clearLogDisplay()">Xóa log</button>
+        <button id="resetDataBtn" onclick="resetAllData()">Reset dữ liệu</button>
+
+        <p class="stat">👤 Người kiểm tra: <b id="currentUser"></b></p>
+        <p class="stat">🕒 Ca: <b id="currentShift"></b></p>
+        <p class="stat">📋 WO: <b id="currentWO"></b></p>
+        <p class="stat">✅ OK: <b id="okCount">0</b> | ❌ NG: <b id="ngCount">0</b></p>
+
+        <label for="deliveryQty"><b>SỐ LƯỢNG GIAO</b></label>
+        <input type="number" id="deliveryQty" value="0" min="0" style="width:150px;">
+        <p id="deliveryStatus" style="color:blue;font-weight:bold;"></p>
+
+        <label for="mahang">Mã hàng</label>
+        <select id="mahang" onchange="updateQRCodeMaxLength()">
+          <option value="">-- Chọn mã hàng --</option>
+          <option value="ECM-2583-236">ECM-2583-236</option>
+          <option value="ECM-2583-164">ECM-2583-164</option>
+          <option value="ECM-2300">ECM-2300</option>
+          <option value="ECM-2310">ECM-2310</option>
+          <option value="IZ-1-R3">IZ-1-R3</option>
+          <option value="RM-4K-R3">RM-4K-R3</option>
+          <option value="AM-4-R3">AM-4-R3</option>
+          <option value="P-7937">P-7937</option>
+          <option value="P-8105">P-8105</option>
+          <option value="P-8149">P-8149</option>
+          <option value="BMS 85AH">BMS 85AH</option>
+          <option value="BMS 57AH">BMS 57AH</option>
+          <option value="CONTROLLER">CONTROLLER</option>
+          <option value="CAS NEMO">CAS NEMO</option>
+          <option value="CAS MINI-DI">CAS MINI-DI</option>
+          <option value="CAS MINI-485">CAS MINI-485</option>
+          <option value="BN 2573A">BN 2573A</option>
+          <option value="OEM">OEM</option>
+        </select>
+        <p id="qrcodeLengthInfo" style="font-size: 12px; color: #666; margin-top: -5px; margin-bottom: 10px;"></p>
+        <label for="qrcode">QR Code</label>
+        <input type="text" id="qrcode" placeholder="Quét QR code" oninput="this.value=this.value.toUpperCase()">
+
+        <label for="loi">Lỗi / Ghi chú</label>
+        <div style="display: flex; gap: 10px;">
+          <input list="errorList" id="loi" placeholder="Nhập lỗi (nếu có)">
+          <input type="text" id="ghichu" placeholder="Nhập ghi chú (nếu có)">
+        </div>
+        <datalist id="errorList">
+          <option value="ÁP CAO">ÁP CAO</option>
+          <option value="ÁP THẤP">ÁP THẤP</option>
+          <option value="HALL SENSOR">HALL SENSOR</option>
+          <option value="R CAO">R CAO</option>
+          <option value="LAMDA FAIL">LAMDA FAIL</option>
+          <option value="KHÔNG NẠP ĐƯỢC CODE">KHÔNG NẠP ĐƯỢC CODE</option>
+          <option value="KHÔNG KẾT NỐI ĐƯỢC VỚI MÁY TÍNH">KHÔNG KẾT NỐI ĐƯỢC VỚI MÁY TÍNH</option>
+          <option value="VĂN TAY GA KHÔNG LÊN">VĂN TAY GA KHÔNG LÊN</option>
+          <option value="NỔ TỤ NHỎ">NỔ TỤ NHỎ</option>
+          <option value="DÒNG CAO">DÒNG CAO</option>
+          <option value="V DISCHARGE THẤP">V DISCHARGE THẤP</option>
+          <option value="V CHARGE THÂP">V CHARGE THÂP</option>
+          <option value="V > 30V">V > 30V</option>
+          <option value="Lỗi 3M">Lỗi 3M</option>
+          <option value="C13,C14">C13,C14</option>
+          <option value="C5,C6">C5,C6</option>
+          <option value="C12,C13">C12,C13</option>
+          <option value="C23">C23</option>
+          <option value="NTC1">NTC1</option>
+          <option value="NTC2">NTC2</option>
+          <option value="TOP AFE">TOP AFE</option>
+        </datalist>
+
+        <div>
+          <button id="okBtn" onclick="saveData('OK')">OK</button>
+          <button id="ngBtn" onclick="saveData('NG')">NG</button>
+          <button id="printQRBtn" onclick="printQRCode()" style="background:#9b59b6;color:white;">📄 In QR Code</button>
+        </div>
+      
+        <p id="error"></p>
+
+        <!-- Thêm thông báo trạng thái đồng bộ -->
+        <div id="syncStatus" class="sync-status"></div>
+
+        <div>
+          <button onclick="exportCSV()">Xuất logfile</button>
+          <button onclick="syncToSheet()">Đồng bộ Google Sheets</button>
+          <button onclick="endShiftReport()">Báo cáo cuối ca</button>
+        </div>
+
+        <!-- Biểu đồ realtime -->
+        <div>
+          <h3>Báo cáo real-time</h3>
+          <div style="width: 200px; height: 200px;">
+            <canvas id="chartOKNG"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột phải -->
+      <div class="right">
+        <!-- Bộ lọc -->
+        <div>
+          <input type="text" id="searchBox" placeholder="Tìm QR / Mã hàng" onkeyup="renderTable()">
+          <select id="filterResult" onchange="renderTable()">
+            <option value="">--Tất cả--</option>
+            <option value="OK">OK</option>
+            <option value="NG">NG</option>
+          </select>
+        </div>
+        <table id="logTable">
+          <thead>
+            <tr>
+              <th>Mã hàng</th>
+              <th>QR Code</th>
+              <th>Phân định</th>
+              <th>Mô tả lỗi</th>
+              <th>Ngày</th>
+              <th>Giờ</th>
+              <th>Số lần xuất hiện</th>
+              <th>Mã nhân viên</th>
+              <th>Shift</th>
+              <th>PO</th>
+              <th>Ghi chú</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Tab 2: Dữ liệu -->
+  <div id="tab2" class="tab-content">
+    <div class="filter-container">
+      <div class="filter-item">
+        <label for="fromDate">Từ ngày</label>
+        <input type="date" id="fromDate">
+      </div>
+      <div class="filter-item">
+        <label for="toDate">Đến ngày</label>
+        <input type="date" id="toDate">
+      </div>
+      <div class="filter-item">
+        <label for="maSP">Mã sản phẩm</label>
+        <select id="maSP"><option value="">Tất cả mã</option></select>
+      </div>
+      <div class="filter-item">
+        <label for="searchQR">Tìm QR Code</label>
+        <input type="text" id="searchQR" placeholder="Nhập QR Code để lọc..." oninput="applyFilters()">
+      </div>
+      <div class="filter-item">
+        <label for="po">PO</label>
+        <select id="po"><option value="">Tất cả PO</option></select>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button class="btn-filter" onclick="applyFilters()">Lọc dữ liệu</button>
+      <button class="btn-download" onclick="reloadFromGoogle()">⭮ Tải từ Google Sheets</button>
+    </div>
+
+    <div id="scrollArea" style="height:500px; overflow:auto; border:1px solid #ccc;">
+      <table id="reportTable" style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th>Mã Hàng</th>
+            <th>QR Code</th>
+            <th>Phán định</th>
+            <th>Mô tả lỗi</th>
+            <th>Giờ</th>
+            <th>Ngày</th>
+            <th>Số lần xuất hiện</th>
+            <th>Mã nhân viên</th>
+            <th>Ca</th>
+            <th>PO</th>
+            <th>Ghi chú</th>
+          </tr>
+        </thead>
+        <tbody id="clusterize-content" class="clusterize-content"></tbody>
+      </table>
+
+      <!-- ✅ Bắt buộc phải nằm TRONG scrollArea, ngay dưới bảng -->
+      <div id="clusterize-scroll" class="clusterize-scroll"></div>
+    </div>
+
+    <!-- Dòng này nằm ngoài để hiển thị tổng số dòng -->
+    <div id="recordCount" style="margin-top:5px; font-weight:bold;"></div>
+  </div>
+    
+  <!-- Tab 3: Biểu đồ -->
+  <div id="tab3" class="tab-content">
+    <div class="chart-container">
+      <h3>📊 Biểu đồ Pareto (theo Mô tả lỗi)</h3>
+      <div style="height: 400px;">
+        <canvas id="paretoChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="chart-container">
+      <h3>📈 Biểu đồ so sánh theo ngày</h3>
+      <div style="height: 400px;">
+        <canvas id="dailyChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Cấu hình Máy in -->
+  <div id="tab4" class="tab-content">
+    <div class="printer-config-panel">
+      <h3>🖨️ CẤU HÌNH MÁY IN THẬT</h3>
+      
+      <div class="config-section">
+        <h4>📡 Loại kết nối</h4>
+        <div class="printer-option">
+          <input type="radio" id="printerTypeNetwork" name="printerType" value="network">
+          <label for="printerTypeNetwork">Máy in mạng (Network)</label>
+        </div>
+        
+        <div class="printer-option">
+          <input type="radio" id="printerTypeUSB" name="printerType" value="usb" checked>
+          <label for="printerTypeUSB">Máy in USB</label>
+        </div>
+        
+        <div class="printer-option">
+          <input type="radio" id="printerTypeLocal" name="printerType" value="local">
+          <label for="printerTypeLocal">Máy in cục bộ (Local)</label>
+        </div>
+      </div>
+
+      <div class="config-section" id="networkConfig" style="display: none;">
+        <h4>🌐 Cấu hình mạng</h4>
+        <label for="printerIP">Địa chỉ IP:</label>
+        <input type="text" id="printerIP" placeholder="192.168.1.100" style="width: 200px;">
+        
+        <label for="printerPort" style="margin-top: 10px;">Port:</label>
+        <input type="number" id="printerPort" value="9100" style="width: 100px;">
+        
+        <button onclick="testNetworkPrinter()" style="background:#17a2b8;color:white;margin-left:10px;">🔧 Kiểm tra kết nối</button>
+      </div>
+
+      <div class="config-section" id="usbConfig">
+  <h4>🔌 Cấu hình USB</h4>
+  
+  <div id="usbDeviceInfo" class="usb-device-info" style="display: none;">
+    <strong>📋 Thiết bị đã chọn:</strong>
+    <div id="usbDeviceDetails" style="font-size: 12px; margin-top: 5px;"></div>
+  </div>
+  
+  <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+    <button onclick="requestUSBDevice()" style="background:#17a2b8;color:white;">🔌 Chọn thiết bị USB</button>
+    <button onclick="testUSBPrinter()" style="background:#27ae60;color:white;">🧪 Kiểm tra máy in</button>
+    <button onclick="showUSBPermissionStatus()" style="background:#f39c12;color:white;">🔍 Kiểm tra quyền</button>
+  </div>
+  
+  <div style="margin-top: 10px; font-size: 12px; color: #666; background: #fff3cd; padding: 8px; border-radius: 4px;">
+    <strong>📝 Lưu ý quan trọng:</strong><br>
+    • Chỉ hoạt động trên <strong>Chrome/Edge</strong><br>
+    • Click <strong>🔒 icon</strong> trong thanh địa chỉ → "Site settings" → "USB devices" → <strong>"Allow"</strong><br>
+    • Đảm bảo máy in được kết nối và bật nguồn
+  </div>
+</div>
+
+      <div class="config-section" id="localConfig" style="display: none;">
+        <h4>💻 Máy in cục bộ</h4>
+        <label for="localPrinterName">Tên máy in:</label>
+        <input type="text" id="localPrinterName" placeholder="ZDesigner GT800" style="width: 250px;">
+        <button onclick="testLocalPrinter()" style="background:#17a2b8;color:white;margin-left:10px;">🔧 Kiểm tra máy in</button>
+      </div>
+
+      <div class="config-section">
+        <h4>⚙️ Cấu hình nhãn</h4>
+        <label for="labelWidth">Chiều rộng (mm):</label>
+        <input type="number" id="labelWidth" value="50" min="10" max="100" style="width: 80px;">
+        
+        <label for="labelHeight" style="margin-left: 15px;">Chiều cao (mm):</label>
+        <input type="number" id="labelHeight" value="30" min="10" max="100" style="width: 80px;">
+        
+        <label for="printDensity" style="margin-left: 15px;">Mật độ in:</label>
+        <select id="printDensity">
+          <option value="6">6 - Nhẹ</option>
+          <option value="8" selected>8 - Bình thường</option>
+          <option value="10">10 - Đậm</option>
+          <option value="12">12 - Rất đậm</option>
+        </select>
+      </div>
+
+      <div class="config-section">
+        <h4>🔧 Hướng dẫn cấu hình</h4>
+        <div style="font-size: 12px; color: #666; background: #f8f9fa; padding: 10px; border-radius: 4px;">
+          <strong>Đối với máy in USB Zebra:</strong><br>
+          1. Kết nối máy in qua cổng USB<br>
+          2. Nhấn "Chọn thiết bị USB" và chọn máy in Zebra<br>
+          3. Nhấn "Kiểm tra máy in" để xác nhận hoạt động<br>
+          4. Đảm bảo dùng Chrome/Edge và cho phép quyền USB
+        </div>
+      </div>
+
+      <div id="printerStatus" class="printer-status status-disconnected">
+        🔴 Chưa kết nối máy in
+      </div>
+
+      <div style="margin-top: 20px;">
+        <button onclick="savePrinterConfig()" style="background:#27ae60;color:white;">💾 Lưu cấu hình</button>
+        <button onclick="loadPrinterConfig()" style="background:#3498db;color:white;">📥 Tải cấu hình</button>
+        <button onclick="printTestLabel()" style="background:#9b59b6;color:white;">🧪 In nhãn thử nghiệm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup in QR Code -->
+  <div id="printOverlay" class="overlay" onclick="closeQRPrint()"></div>
+  <div id="qrPrintContainer" class="qr-print-container">
+    <div style="font-weight:bold; margin-bottom:15px; font-size:18px;">📄 IN QR CODE</div>
+    
+    <div class="qr-code" id="qrCodeDisplay"></div>
+    
+    <div style="margin-top: 20px;">
+      <button onclick="printQRNowReal()" style="background:#27ae60;color:white;padding:8px 16px;border:none;border-radius:4px;margin-right:10px;cursor:pointer;">🖨️ In Thật</button>
+      <button onclick="printQRNow()" style="background:#3498db;color:white;padding:8px 16px;border:none;border-radius:4px;margin-right:10px;cursor:pointer;">👁️ Mô phỏng</button>
+      <button onclick="closeQRPrint()" style="background:#e74c3c;color:white;padding:8px 16px;border:none;border-radius:4px;cursor:pointer;">Đóng</button>
+    </div>
+  </div>
+
+  <script>
+    // ===== HÀM QUẢN LÝ TAB =====
+    function showTab(n) {
+      document.querySelectorAll('.tab-buttons button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.getElementById('btnTab' + n).classList.add('active');
+      document.getElementById('tab' + n).classList.add('active');
+      
+      if (n === 3) {
+        setTimeout(() => {
+          const dataToUse = filteredDataGlobal.length > 0 ? filteredDataGlobal : allData;
+          drawPareto(dataToUse);
+          drawDailyChart(dataToUse);
+        }, 100);
+      }
+      
+      if (n === 2 && !window.preventAutoReload) {
+        reloadFromGoogle();
+      }
+
+      if (n === 4) {
+        loadPrinterConfig();
+        updatePrinterTypeUI();
+      }
+    }
+
+    // ===== CẤU HÌNH MÁY IN THẬT =====
+    let printerConfig = {
+      type: 'usb',
+      ip: '192.168.1.100',
+      port: 9100,
+      localName: 'ZDesigner GT800',
+      labelWidth: 50,
+      labelHeight: 30,
+      density: 8
+    };
+
+    let usbDevice = null;
+
+    // Cập nhật UI theo loại máy in
+    function updatePrinterTypeUI() {
+      const type = document.querySelector('input[name="printerType"]:checked').value;
+      
+      document.getElementById('networkConfig').style.display = type === 'network' ? 'block' : 'none';
+      document.getElementById('usbConfig').style.display = type === 'usb' ? 'block' : 'none';
+      document.getElementById('localConfig').style.display = type === 'local' ? 'block' : 'none';
+    }
+
+    // Lưu cấu hình máy in
+    function savePrinterConfig() {
+      printerConfig.type = document.querySelector('input[name="printerType"]:checked').value;
+      printerConfig.ip = document.getElementById('printerIP').value;
+      printerConfig.port = parseInt(document.getElementById('printerPort').value);
+      printerConfig.localName = document.getElementById('localPrinterName').value;
+      printerConfig.labelWidth = parseInt(document.getElementById('labelWidth').value);
+      printerConfig.labelHeight = parseInt(document.getElementById('labelHeight').value);
+      printerConfig.density = parseInt(document.getElementById('printDensity').value);
+      
+      localStorage.setItem('printerConfig', JSON.stringify(printerConfig));
+      updatePrinterStatus('✅ Đã lưu cấu hình máy in', 'connected');
+    }
+
+    // Tải cấu hình máy in
+    function loadPrinterConfig() {
+      const saved = localStorage.getItem('printerConfig');
+      if (saved) {
+        printerConfig = JSON.parse(saved);
+        
+        // Cập nhật UI
+        document.querySelector(`input[value="${printerConfig.type}"]`).checked = true;
+        document.getElementById('printerIP').value = printerConfig.ip || '';
+        document.getElementById('printerPort').value = printerConfig.port || 9100;
+        document.getElementById('localPrinterName').value = printerConfig.localName || '';
+        document.getElementById('labelWidth').value = printerConfig.labelWidth || 50;
+        document.getElementById('labelHeight').value = printerConfig.labelHeight || 30;
+        document.getElementById('printDensity').value = printerConfig.density || 8;
+        
+        updatePrinterTypeUI();
+        updateUSBDeviceInfo();
+        updatePrinterStatus('✅ Đã tải cấu hình', 'connected');
+      }
+    }
+
+    // Cập nhật trạng thái máy in
+    function updatePrinterStatus(message, type = 'disconnected') {
+      const statusEl = document.getElementById('printerStatus');
+      statusEl.textContent = message;
+      statusEl.className = 'printer-status status-' + type;
+    }
+
+    // Cập nhật thông tin thiết bị USB
+    function updateUSBDeviceInfo() {
+      const usbInfo = document.getElementById('usbDeviceInfo');
+      const usbDetails = document.getElementById('usbDeviceDetails');
+      
+      if (usbDevice) {
+        usbInfo.style.display = 'block';
+        usbDetails.innerHTML = `
+          <div>📦 ${usbDevice.productName || 'Máy in Zebra'}</div>
+          <div>🔌 Vendor: 0x${usbDevice.vendorId.toString(16).toUpperCase()}</div>
+          <div>🆔 Product: 0x${usbDevice.productId.toString(16).toUpperCase()}</div>
+          <div>📶 Trạng thái: ${usbDevice.opened ? '✅ Đã kết nối' : '🔴 Chưa kết nối'}</div>
+        `;
+      } else {
+        usbInfo.style.display = 'none';
+      }
+    }
+
+    // Yêu cầu thiết bị USB - SỬA LẠI
+    // Yêu cầu thiết bị USB - SỬA LẠI VỚI XỬ LÝ LỖI CHI TIẾT
+async function requestUSBDevice() {
+  if (!navigator.usb) {
+    alert('Trình duyệt không hỗ trợ WebUSB API. Hãy dùng Chrome hoặc Edge phiên bản mới nhất.');
+    return;
+  }
+
+  try {
+    // Hiển thị hướng dẫn trước khi yêu cầu
+    const userConfirmed = confirm(`🔧 CẤU HÌNH QUYỀN USB
+
+Để kết nối máy in USB, bạn cần:
+
+1. Dùng Chrome/Edge phiên bản mới
+2. Cho phép trang web truy cập USB
+3. Chọn đúng máy in Zebra trong danh sách
+
+👉 Click vào 🔒 icon trong thanh địa chỉ
+👉 Chọn "Site settings" 
+👉 Tìm "USB devices" và chọn "Allow"
+
+Bấm OK để tiếp tục chọn máy in.`);
+
+    if (!userConfirmed) return;
+
+    updatePrinterStatus('🔄 Đang yêu cầu quyền truy cập USB...', 'testing');
+
+    // Thêm timeout để tránh treo
+    const usbRequestPromise = navigator.usb.requestDevice({ 
+      filters: [
+        { vendorId: 0x05C6 }, // Zebra Technologies
+        { vendorId: 0x0A5F }, // Zebra
+        { vendorId: 0x15BA }, // Seagull Scientific
+        { vendorId: 0x0C2E }, // Zebra alternate
+      ]
+    });
+
+    // Timeout sau 30 giây
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Timeout: Không thể truy cập USB. Kiểm tra quyền trình duyệt.')), 30000);
+    });
+
+    usbDevice = await Promise.race([usbRequestPromise, timeoutPromise]);
+    
+    if (!usbDevice) {
+      throw new Error('Không chọn được thiết bị USB');
+    }
+
+    // Tự động kết nối ngay sau khi chọn
+    await connectToUSBDevice();
+    
+  } catch (error) {
+    console.error('Lỗi USB:', error);
+    
+    let errorMessage = 'Lỗi không xác định';
+    
+    if (error.message.includes('Access denied') || error.message.includes('No device selected')) {
+      errorMessage = `❌ QUYỀN TRUY CẬP BỊ TỪ CHỐI
+
+Giải pháp:
+1. Đảm bảo dùng Chrome/Edge
+2. Click 🔒 icon trong thanh địa chỉ
+3. Chọn "Site settings"
+4. Tìm "USB devices" và chọn "Allow"
+5. Thử lại kết nối
+
+Lỗi chi tiết: ${error.message}`;
+    } else if (error.message.includes('Timeout')) {
+      errorMessage = `⏰ HẾT THỜI GIAN CHỜ
+
+Trình duyệt không phản hồi yêu cầu USB. Hãy:
+1. Refresh trang và thử lại
+2. Kiểm tra quyền USB trong cài đặt site
+3. Đảm bảo máy in được kết nối và bật nguồn`;
+    } else {
+      errorMessage = `❌ LỖI USB: ${error.message}`;
+    }
+    
+    updatePrinterStatus('🔴 Lỗi kết nối USB', 'disconnected');
+    alert(errorMessage);
+  }
+}
+
+// Kiểm tra quyền USB
+async function checkUSBPermission() {
+  if (!navigator.usb) {
+    return { supported: false, message: 'Trình duyệt không hỗ trợ WebUSB' };
+  }
+
+  try {
+    // Thử getDevices để kiểm tra quyền
+    const devices = await navigator.usb.getDevices();
+    return { 
+      supported: true, 
+      hasPermission: devices.length > 0,
+      devices: devices
+    };
+  } catch (error) {
+    return { 
+      supported: true, 
+      hasPermission: false, 
+      error: error.message 
+    };
+  }
+}
+
+// Hiển thị trạng thái quyền USB
+async function showUSBPermissionStatus() {
+  const status = await checkUSBPermission();
+  
+  let message = '🔍 TRẠNG THÁI QUYỀN USB:\n\n';
+  
+  if (!status.supported) {
+    message += '❌ Trình duyệt không hỗ trợ WebUSB\n👉 Hãy dùng Chrome/Edge phiên bản mới';
+  } else if (status.hasPermission) {
+    message += '✅ Đã có quyền truy cập USB\n';
+    message += `📦 Số thiết bị: ${status.devices.length}`;
+  } else {
+    message += '⚠️ Chưa có quyền truy cập USB\n';
+    message += '👉 Nhấn "Chọn thiết bị USB" để cấp quyền';
+  }
+  
+  alert(message);
+}
+    // Kết nối tới thiết bị USB
+    async function connectToUSBDevice() {
+      if (!usbDevice) {
+        throw new Error('Chưa chọn thiết bị USB');
+      }
+      
+      try {
+        updatePrinterStatus('🔄 Đang kết nối USB...', 'testing');
+        
+        await usbDevice.open();
+        await usbDevice.selectConfiguration(1);
+        await usbDevice.claimInterface(0);
+        
+        updatePrinterStatus('✅ Đã kết nối USB thành công', 'connected');
+        updateUSBDeviceInfo();
+        return true;
+        
+      } catch (error) {
+        console.error('Lỗi kết nối USB:', error);
+        updatePrinterStatus('❌ Lỗi kết nối USB: ' + error.message, 'disconnected');
+        throw error;
+      }
+    }
+
+    // Gửi lệnh tới máy in USB - SỬA LẠI
+    async function sendToUSBPrinter(zplCode) {
+      if (!usbDevice) {
+        throw new Error('Chưa chọn thiết bị USB. Hãy nhấn "Chọn thiết bị USB" trước.');
+      }
+      
+      try {
+        // Đảm bảo đã kết nối
+        if (!usbDevice.opened) {
+          await connectToUSBDevice();
+        }
+        
+        const encoder = new TextEncoder();
+        const data = encoder.encode(zplCode);
+        
+        // Gửi dữ liệu qua endpoint out (thường là 1 hoặc 2)
+        const result = await usbDevice.transferOut(1, data);
+        
+        console.log('Đã gửi ZPL qua USB:', result);
+        return true;
+        
+      } catch (error) {
+        console.error('Lỗi gửi USB:', error);
+        
+        // Thử endpoint khác nếu endpoint 1 fail
+        if (error.message.includes('Endpoint') || error.message.includes('not found')) {
+          return await tryAlternativeUSBEndpoint(zplCode);
+        }
+        
+        throw new Error('Lỗi gửi lệnh USB: ' + error.message);
+      }
+    }
+
+    // Thử endpoint USB thay thế
+    async function tryAlternativeUSBEndpoint(zplCode) {
+      try {
+        console.log('Thử endpoint thay thế...');
+        
+        const encoder = new TextEncoder();
+        const data = encoder.encode(zplCode);
+        
+        // Thử endpoint 2
+        const result = await usbDevice.transferOut(2, data);
+        console.log('Thành công với endpoint 2');
+        return true;
+        
+      } catch (secondError) {
+        console.error('Cả hai endpoint đều thất bại:', secondError);
+        throw new Error('Không tìm thấy endpoint phù hợp cho máy in USB');
+      }
+    }
+
+    // Kiểm tra máy in USB
+    async function testUSBPrinter() {
+      if (!usbDevice) {
+        alert('Vui lòng chọn thiết bị USB trước khi kiểm tra.');
+        return;
+      }
+      
+      try {
+        updatePrinterStatus('🔄 Đang kiểm tra máy in USB...', 'testing');
+        
+        const testZPL = '^XA^FO20,20^A0N,25,25^FDKIEM TRA USB^FS^XZ';
+        await sendToUSBPrinter(testZPL);
+        
+        updatePrinterStatus('✅ Máy in USB hoạt động tốt', 'connected');
+        alert('✅ Kiểm tra máy in USB thành công!');
+        
+      } catch (error) {
+        updatePrinterStatus('❌ Lỗi máy in USB: ' + error.message, 'disconnected');
+        alert('❌ Lỗi kiểm tra USB: ' + error.message);
+      }
+    }
+
+    // Gửi lệnh tới máy in mạng
+    async function sendToNetworkPrinter(zplCode) {
+      return new Promise((resolve, reject) => {
+        try {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', `http://${printerConfig.ip}:${printerConfig.port}`, true);
+          xhr.timeout = 5000;
+          
+          xhr.onload = function() {
+            if (xhr.status === 200) {
+              resolve(true);
+            } else {
+              reject(new Error(`HTTP ${xhr.status}`));
+            }
+          };
+          
+          xhr.onerror = function() {
+            reject(new Error('Network error'));
+          };
+          
+          xhr.ontimeout = function() {
+            reject(new Error('Timeout'));
+          };
+          
+          xhr.send(zplCode);
+          
+        } catch (error) {
+          reject(error);
+        }
+      });
+    }
+
+    // Kiểm tra máy in mạng
+    async function testNetworkPrinter() {
+      updatePrinterStatus('🔄 Đang kiểm tra kết nối...', 'testing');
+      
+      try {
+        const testZPL = '^XA^FO20,20^A0N,25,25^FDKIEM TRA KET NOI^FS^XZ';
+        await sendToNetworkPrinter(testZPL);
+        
+        updatePrinterStatus('✅ Kết nối máy in mạng thành công', 'connected');
+      } catch (error) {
+        updatePrinterStatus('❌ Không thể kết nối đến máy in', 'disconnected');
+      }
+    }
+
+    // Gửi tới máy in cục bộ
+    async function sendToLocalPrinter(zplCode) {
+      // Tạo blob từ ZPL
+      const blob = new Blob([zplCode], { type: 'application/zpl' });
+      const url = URL.createObjectURL(blob);
+      
+      // Mở cửa sổ in
+      const printWindow = window.open(url, '_blank');
+      
+      if (printWindow) {
+        printWindow.onload = function() {
+          printWindow.print();
+          setTimeout(() => {
+            printWindow.close();
+            URL.revokeObjectURL(url);
+          }, 1000);
+        };
+      }
+      
+      return true;
+    }
+
+    // Kiểm tra máy in cục bộ
+    function testLocalPrinter() {
+      updatePrinterStatus('✅ Máy in cục bộ sẵn sàng (sử dụng Print API)', 'connected');
+    }
+
+    // Gửi lệnh tới máy in (tự động chọn loại)
+    async function sendToPrinter(zplCode) {
+      switch (printerConfig.type) {
+        case 'network':
+          return await sendToNetworkPrinter(zplCode);
+        case 'usb':
+          return await sendToUSBPrinter(zplCode);
+        case 'local':
+          return await sendToLocalPrinter(zplCode);
+        default:
+          throw new Error('Loại máy in không được hỗ trợ');
+      }
+    }
+
+    // Kiểm tra kết nối máy in
+    async function checkPrinterConnection() {
+      const testZPL = '^XA^FO20,20^A0N,25,25^FDKIEM TRA KET NOI^FS^XZ';
+      
+      try {
+        await sendToPrinter(testZPL);
+        return true;
+      } catch (error) {
+        console.error('Lỗi kết nối máy in:', error);
+        return false;
+      }
+    }
+
+    // Tạo ZPL cho QR code thật
+    function generateZPLForRealPrinter(qrData) {
+      const { code, mahang, wo } = qrData;
+      const width = Math.min(printerConfig.labelWidth * 8, 800);
+      const height = Math.min(printerConfig.labelHeight * 8, 600);
+      
+      return `^XA
+^PW${width}
+^LL${height}
+^MD${printerConfig.density}
+^FO20,20^A0N,25,25^FD${mahang || 'NO PRODUCT'}^FS
+^FO20,50^A0N,20,20^FDWO: ${wo || 'NO WO'}^FS
+^FO20,80^BQN,2,6^FDQA,${code}^FS
+^FO20,180^A0N,15,15^FD${new Date().toLocaleDateString('vi-VN')}^FS
+^XZ`.trim();
+    }
+
+    // Tạo ZPL thử nghiệm
+    function generateTestZPL() {
+      return `^XA
+^PW${printerConfig.labelWidth * 8}
+^LL${printerConfig.labelHeight * 8}
+^FO20,20^A0N,25,25^FDTEST LABEL^FS
+^FO20,50^A0N,20,20^FD${new Date().toLocaleString('vi-VN')}^FS
+^FO20,80^BQN,2,6^FDQA,TEST123456^FS
+^FO20,180^A0N,15,15^FDConfig: ${printerConfig.type}^FS
+^XZ`.trim();
+    }
+
+    // In nhãn thử nghiệm
+    async function printTestLabel() {
+      const testZPL = generateTestZPL();
+      
+      try {
+        await sendToPrinter(testZPL);
+        updatePrinterStatus('✅ In thử nghiệm thành công', 'connected');
+      } catch (error) {
+        updatePrinterStatus('❌ Lỗi in thử: ' + error.message, 'disconnected');
+        showZPLFallback(testZPL);
+      }
+    }
+
+    // In QR code thật - SỬA LẠI
+    async function printQRNowReal() {
+      if (!lastQRCode) {
+        alert("Không có QR code để in!");
+        return;
+      }
+
+      // Kiểm tra kết nối trước
+      updatePrinterStatus('🔄 Đang kiểm tra kết nối máy in...', 'testing');
+      
+      const isConnected = await checkPrinterConnection();
+      
+      if (!isConnected) {
+        updatePrinterStatus('❌ Không thể kết nối máy in', 'disconnected');
+        showZPLFallback(generateZPLForRealPrinter(lastQRCode));
+        return;
+      }
+
+      try {
+        const zplCode = generateZPLForRealPrinter(lastQRCode);
+        await sendToPrinter(zplCode);
+        
+        showPrintingStatus('✅ Đã gửi lệnh in tới máy in!', 'success');
+        updatePrinterStatus('✅ Máy in sẵn sàng', 'connected');
+        
+      } catch (error) {
+        console.error('Lỗi in:', error);
+        showPrintingStatus('❌ Lỗi in: ' + error.message, 'error');
+        updatePrinterStatus('❌ Lỗi kết nối máy in', 'disconnected');
+        showZPLFallback(generateZPLForRealPrinter(lastQRCode));
+      }
+      
+      closeQRPrint();
+    }
+
+    // Hiển thị trạng thái in
+    function showPrintingStatus(message, type = 'info') {
+      const statusDiv = document.createElement('div');
+      statusDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        z-index: 10000;
+        background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      `;
+      statusDiv.textContent = message;
+      
+      document.body.appendChild(statusDiv);
+      
+      setTimeout(() => {
+        document.body.removeChild(statusDiv);
+      }, 3000);
+    }
+
+    // Hiển thị ZPL fallback
+    function showZPLFallback(zplCode) {
+      const overlay = document.createElement('div');
+      overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+      `;
+
+      const fallbackWindow = document.createElement('div');
+      fallbackWindow.style.cssText = `
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        width: 500px;
+        max-width: 90%;
+        max-height: 80%;
+        overflow: auto;
+      `;
+
+      fallbackWindow.innerHTML = `
+        <h3 style="color: #e74c3c; margin-top: 0;">⚠️ KHÔNG THỂ KẾT NỐI MÁY IN</h3>
+        <p>Copy ZPL code bên dưới và gửi thủ công tới máy in:</p>
+        
+        <textarea 
+          id="zplCodeTextarea" 
+          style="width: 100%; height: 200px; font-family: 'Courier New', monospace; font-size: 12px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;"
+          readonly>${zplCode}</textarea>
+        
+        <div style="display: flex; gap: 10px;">
+          <button onclick="copyZPLCode()" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; flex: 1;">
+            📋 Copy ZPL Code
+          </button>
+          <button onclick="closeFallback()" style="background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; flex: 1;">
+            Đóng
+          </button>
+        </div>
+        
+        <div style="margin-top: 15px; font-size: 12px; color: #666;">
+          <strong>Hướng dẫn:</strong> Dán ZPL code vào phần mềm quản lý máy in Zebra hoặc gửi trực tiếp tới cổng máy in.
+        </div>
+      `;
+
+      overlay.appendChild(fallbackWindow);
+      document.body.appendChild(overlay);
+
+      window.copyZPLCode = function() {
+        const textarea = document.getElementById('zplCodeTextarea');
+        textarea.select();
+        document.execCommand('copy');
+        showPrintingStatus('✅ Đã copy ZPL code!', 'success');
+      };
+
+      window.closeFallback = function() {
+        document.body.removeChild(overlay);
+      };
+    }
+
+    // ===== PHẦN PHÁN ĐỊNH SẢN PHẨM (GIỮ NGUYÊN) =====
+    const users = {
+      "5035": "123456",
+      "5624": "562411",
+      "5814": "241012",
+      "4549": "130417",
+      "5372": "537211",
+      "5171": "517111",
+      "5651": "565111",
+      "5531": "553111",
+      "5019": "501911",
+    };
+
+    const maxLengthByProduct = {
+      "ECM-2583-236": 20,
+      "ECM-2583-164": 20,
+      "ECM-2300": 15,
+      "ECM-2310": 15,
+      "IZ-1-R3": 48,
+      "RM-4K-R3": 48,
+      "AM-4-R3": 48,
+      "P-7937": 15,
+      "P-8105": 15,
+      "P-8149": 15,
+      "BMS 85AH": 22,
+      "BMS 57AH": 22,
+      "CONTROLLER": 22,
+      "CAS NEMO": 12,
+      "CAS MINI-DI": 15,
+      "CAS MINI-485": 15,
+      "BN 2573A": 12,
+      "OEM": 20
+    };
+
+    let records = [["Mã hàng","QR Code","Kết quả","Lỗi","Giờ","Ngày","Số lần xuất hiện","Người kiểm tra","Ca","WO","Ghi chú","Synced"]];
+    let qrCounter = {};
+    let currentUser = "";
+    let currentShift = "";
+    let currentWO = "";
+    let okCount = 0, ngCount = 0;
+    let chart;
+
+    let deliveryTarget = 0;
+    let deliveryCounter = 0;
+    let lastQRCode = null;
+
+    // Load từ localStorage
+    if (localStorage.getItem("records")) {
+      try { 
+        const savedRecords = JSON.parse(localStorage.getItem("records"));
+        if (Array.isArray(savedRecords) && savedRecords.length > 0) {
+          records = savedRecords;
+        }
+      } catch(e) { 
+        console.error("Lỗi khi load records từ localStorage:", e);
+      }
+    }
+    
+    if (localStorage.getItem("qrCounter")) {
+      try { 
+        qrCounter = JSON.parse(localStorage.getItem("qrCounter")); 
+      } catch(e) { 
+        console.error("Lỗi khi load qrCounter từ localStorage:", e);
+      }
+    }
+
+    function updateQRCodeMaxLength() {
+      const mahang = document.getElementById("mahang").value;
+      const infoElement = document.getElementById("qrcodeLengthInfo");
+      
+      if (mahang && maxLengthByProduct[mahang]) {
+        const maxLength = maxLengthByProduct[mahang];
+        infoElement.textContent = `QR Code tối đa ${maxLength} ký tự`;
+        infoElement.style.color = "#27ae60";
+      } else {
+        infoElement.textContent = "";
+      }
+    }
+
+    function recomputeCountsForShift(shift) {
+      let ok = 0, ng = 0;
+      const latestResults = {};
+      
+      for (let i = 1; i < records.length; i++) {
+        const row = records[i];
+        if (row[8] === shift) {
+          const qrcode = row[1];
+          if (!latestResults[qrcode] || i > latestResults[qrcode].index) {
+            latestResults[qrcode] = {
+              result: row[2],
+              index: i
+            };
+          }
+        }
+      }
+      
+      for (const qrcode in latestResults) {
+        if (latestResults[qrcode].result === "OK") ok++;
+        else if (latestResults[qrcode].result === "NG") ng++;
+      }
+      
+      okCount = ok; 
+      ngCount = ng;
+      document.getElementById("okCount").textContent = okCount;
+      document.getElementById("ngCount").textContent = ngCount;
+      updateChart();
+    }
+
+    function login() {
+      const uRaw = document.getElementById("loginUser").value.trim();
+      const p = document.getElementById("loginPass").value.trim();
+      const s = document.getElementById("shift").value;
+      const wo = document.getElementById("wo").value.trim();
+      
+      if (!uRaw || !wo) { 
+        document.getElementById("loginError").textContent = "⚠️ Vui lòng nhập đầy đủ!"; 
+        return; 
+      }
+      
+      const u = uRaw.toUpperCase();
+      if (users[u] && users[u] === p) {
+        currentUser = u;
+        currentShift = s;
+        currentWO = wo;
+        document.getElementById("currentUser").textContent = currentUser;
+        document.getElementById("currentShift").textContent = currentShift;
+        document.getElementById("currentWO").textContent = currentWO;
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("mainApp").style.display = "flex";
+        recomputeCountsForShift(currentShift);
+        renderTable();
+      } else {
+        document.getElementById("loginError").textContent = "⚠️ Sai tên đăng nhập hoặc mật khẩu!";
+      }
+    }
+
+    function saveData(result) {
+      if (deliveryTarget === 0) {
+        alert("⚠️ Vui lòng nhập SỐ LƯỢNG GIAO trước khi quét!");
+        return;
+      }
+      if (deliveryCounter >= deliveryTarget) {
+        alert("⚠️ Đã đủ số lượng giao, không thể quét thêm!");
+        return;
+      }
+
+      const mahang = document.getElementById("mahang").value.trim().toUpperCase();
+      const qrcode = document.getElementById("qrcode").value.trim().toUpperCase();
+      const loi = document.getElementById("loi").value.trim();
+      const ghichu = document.getElementById("ghichu").value.trim();
+
+      if (!mahang || !qrcode) {
+        document.getElementById("error").textContent = "⚠️ Vui lòng nhập Mã hàng và QR Code!";
+        return;
+      }
+
+      const maxLength = maxLengthByProduct[mahang];
+      if (maxLength && qrcode.length > maxLength) {
+        alert(`⚠️ QR Code cho mã hàng ${mahang} vượt quá ${maxLength} ký tự!`);
+        document.getElementById("qrcode").value = "";
+        document.getElementById("qrcode").focus();
+        return;
+      }
+
+      document.getElementById("error").textContent = "";
+      qrCounter[qrcode] = (qrCounter[qrcode] || 0) + 1;
+
+      const now = new Date();
+      const gio = now.toLocaleTimeString("vi-VN");
+      const ngay = now.toLocaleDateString("vi-VN");
+
+      if (qrcode) {
+        lastQRCode = { code: qrcode, mahang: mahang, wo: currentWO };
+      }
+
+      let oldOkCount = 0, oldNgCount = 0;
+      for (let i = 1; i < records.length; i++) {
+        if (records[i][1] === qrcode) {
+          if (records[i][2] === "OK") oldOkCount++;
+          else if (records[i][2] === "NG") oldNgCount++;
+        }
+      }
+
+      okCount = okCount - oldOkCount;
+      ngCount = ngCount - oldNgCount;
+      if (result === "OK") okCount++; else ngCount++;
+
+      records.push([
+        mahang, qrcode, result, loi, gio, ngay,
+        qrCounter[qrcode], currentUser, currentShift,
+        currentWO, ghichu, false
+      ]);
+
+      saveLocal();
+      renderTable();
+      document.getElementById("okCount").textContent = okCount;
+      document.getElementById("ngCount").textContent = ngCount;
+      updateChart();
+
+      document.getElementById("qrcode").value = "";
+      document.getElementById("loi").value = "";
+      document.getElementById("ghichu").value = "";
+
+      deliveryCounter++;
+      document.getElementById("deliveryStatus").textContent = `Đã quét ${deliveryCounter}/${deliveryTarget}`;
+
+      if (deliveryCounter >= deliveryTarget) {
+        alert(`✅ Đã đủ ${deliveryTarget} sản phẩm!`);
+        document.getElementById("deliveryQty").value = 0;
+        deliveryTarget = 0;
+        deliveryCounter = 0;
+        document.getElementById("deliveryStatus").textContent = "";
+      }
+
+      const qEl = document.getElementById("qrcode");
+      if (qEl) { qEl.focus(); qEl.select(); }
+
+      if (result === "OK" && lastQRCode) {
+        setTimeout(() => printQRNow(), 500);
+      }
+
+      syncToSheet();
+    }
+
+    function printQRCode() {
+      if (!lastQRCode) {
+        alert("Chưa có QR code để in! Hãy quét QR code trước.");
+        return;
+      }
+      
+      document.getElementById('qrCodeDisplay').textContent = lastQRCode.code;
+      
+      // Tạo QR code hình ảnh trong popup
+      const qrCodeElement = document.getElementById('qrCodeDisplay');
+      qrCodeElement.innerHTML = '';
+      
+      QRCode.toCanvas(qrCodeElement, lastQRCode.code, {
+        width: 150,
+        margin: 1,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
+      }, function (error) {
+        if (error) {
+          console.error(error);
+          qrCodeElement.textContent = lastQRCode.code;
+        }
+      });
+      
+      document.getElementById('printOverlay').style.display = 'block';
+      document.getElementById('qrPrintContainer').style.display = 'block';
+    }
+
+    function printQRNow() {
+      if (!lastQRCode) {
+        alert("Không có QR code để in!");
+        return;
+      }
+
+      // ZPL code CHỈ in QR code (không có text khác)
+      const zplCode = `^XA^FO20,20^BQN,2,6^FDQA,${lastQRCode.code}^FS^XZ`;
+
+      // Hiển thị cửa sổ giả lập máy in
+      showVirtualPrinter(zplCode, lastQRCode);
+      closeQRPrint();
+    }
+
+    // Hàm hiển thị máy in ảo (chỉ QR code)
+    function showVirtualPrinter(zplCode, qrData) {
+      const overlay = document.createElement('div');
+      overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+      `;
+
+      const printerWindow = document.createElement('div');
+      printerWindow.style.cssText = `
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        width: 350px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      `;
+
+      // Sử dụng API tạo QR code đơn giản
+      const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(qrData.code)}`;
+
+      printerWindow.innerHTML = `
+        <h2 style="color: #2c3e50; margin: 0 0 15px 0;">🖨️ IN QR CODE</h2>
+        
+        <div style="background: #d4edda; padding: 8px; border-radius: 5px; margin: 10px 0;">
+          <strong style="color: #155724;">✓ MÁY IN SẴN SÀNG</strong>
+        </div>
+
+        <div style="background: #f8f9fa; padding: 12px; border-radius: 5px; margin: 15px 0;">
+          <div style="font-size: 14px; color: #666; margin-bottom: 5px;">MÃ SẼ IN:</div>
+          <div style="font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; color: #2c3e50; padding: 8px; background: white; border-radius: 4px; border: 1px solid #ddd; word-break: break-all;">
+            ${qrData.code}
+          </div>
+        </div>
+
+        <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin: 15px 0; border: 2px solid #27ae60;">
+          <div style="font-size: 14px; color: #155724; margin-bottom: 10px; font-weight: bold;">🎯 QR CODE:</div>
+          <img src="${qrCodeUrl}" 
+               alt="QR Code" 
+               style="border: 3px solid #2c3e50; border-radius: 8px; background: white; width: 150px; height: 150px;"
+               onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjNlbSI+UVLigIJDb2RlPC90ZXh0Pjx0ZXh0IHg9IjUwJSIgeT0iNjAlIiBmb250LXNpemU9IjgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIwLjNlbSI+JHtxckRhdGEuY29kZX08L3RleHQ+PC9zdmc+'.replace('${qrData.code}', qrData.code);">
+          <div style="margin-top: 8px; font-size: 11px; color: #666;">
+            Quét thử QR code này
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+          <button onclick="simulatePrintSuccess(this)" style="
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            flex: 1;
+          ">✅ IN NGAY</button>
+          
+          <button onclick="closeVirtualPrinter(this)" style="
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            flex: 1;
+          ">❌ HỦY</button>
+        </div>
+
+        <div style="margin-top: 15px; font-size: 10px; color: #7f8c8d; background: #f8f9fa; padding: 8px; border-radius: 3px;">
+          <strong>ZPL:</strong> ${zplCode}
+        </div>
+      `;
+
+      overlay.appendChild(printerWindow);
+      document.body.appendChild(overlay);
+
+      overlay.closePrinter = () => document.body.removeChild(overlay);
+    }
+
+    function simulatePrintSuccess(button) {
+      const overlay = button.closest('div[style*="position: fixed"]');
+      
+      button.innerHTML = '🖨️ Đang in...';
+      button.style.background = '#f39c12';
+      button.disabled = true;
+      
+      setTimeout(() => {
+        button.innerHTML = '✅ In thành công!';
+        button.style.background = '#27ae60';
+        
+        const successMsg = document.createElement('div');
+        successMsg.style.cssText = `
+          background: #d4edda;
+          color: #155724;
+          padding: 10px;
+          border-radius: 5px;
+          margin: 10px 0;
+          text-align: center;
+          border: 1px solid #c3e6cb;
+        `;
+        successMsg.innerHTML = '🎉 QR code đã được in thành công!';
+        
+        button.parentNode.insertBefore(successMsg, button);
+        
+        setTimeout(() => {
+          if (overlay.closePrinter) overlay.closePrinter();
+        }, 2000);
+      }, 1500);
+    }
+
+    function closeVirtualPrinter(button) {
+      const overlay = button.closest('div[style*="position: fixed"]');
+      if (overlay.closePrinter) overlay.closePrinter();
+    }
+
+    function closeQRPrint() {
+      document.getElementById('printOverlay').style.display = 'none';
+      document.getElementById('qrPrintContainer').style.display = 'none';
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("logTable").getElementsByTagName("tbody")[0];
+      tbody.innerHTML = "";
+
+      const search = document.getElementById("searchBox").value.toLowerCase();
+      const filterRes = document.getElementById("filterResult").value;
+
+      for (let i = records.length - 1; i >= 1; i--) {
+        const rowData = records[i];
+        
+        if (search && !rowData[0].toLowerCase().includes(search) && !rowData[1].toLowerCase().includes(search)) continue;
+        if (filterRes && rowData[2] !== filterRes) continue;
+
+        const tr = tbody.insertRow();
+        
+        let bgColor = "white";
+        if (rowData[2] === "NG") {
+          bgColor = "#ffcccc";
+        } else if (rowData[2] === "OK") {
+          const hasPreviousNG = checkIfHasPreviousNG(rowData[1], i);
+          if (hasPreviousNG) {
+            bgColor = "#ccffcc";
+          } else {
+            bgColor = "white";
+          }
+        }
+        tr.style.backgroundColor = bgColor;
+
+        for (let j = 0; j < 11; j++) {
+          const td = tr.insertCell();
+          td.textContent = rowData[j] || "";
+        }
+
+        const tdDel = tr.insertCell();
+        const btn = document.createElement("button");
+        btn.textContent = "Xóa";
+        btn.style.background = "#e74c3c";
+        btn.style.color = "white";
+        btn.style.border = "none";
+        btn.style.padding = "4px 8px";
+        btn.style.borderRadius = "4px";
+        btn.onclick = () => deleteRecord(i);
+        tdDel.appendChild(btn);
+
+        if ((rowData[6] || 0) > 1) tr.classList.add("duplicate");
+      }
+    }
+
+    function checkIfHasPreviousNG(qrcode, currentIndex) {
+      for (let i = currentIndex - 1; i >= 1; i--) {
+        if (records[i][1] === qrcode && records[i][2] === "NG") {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function saveLocal() {
+      try {
+        localStorage.setItem("records", JSON.stringify(records));
+        localStorage.setItem("qrCounter", JSON.stringify(qrCounter));
+      } catch(e) { 
+        console.warn("Lưu localStorage thất bại:", e); 
+      }
+    }
+
+    function exportCSV() {
+      if (!currentShift || !currentWO) {
+        alert("⚠️ Vui lòng đăng nhập và chọn ca + WO trước khi xuất file!");
+        return;
+      }
+
+      let mahang = document.getElementById("mahang").value.trim();
+      if (!mahang) { 
+        alert("⚠️ Vui lòng nhập mã hàng trước khi xuất file!"); 
+        return; 
+      }
+
+      let filteredRecords = [["Mã hàng","QR Code","Kết quả","Lỗi","Giờ","Ngày","Số lần xuất hiện","Người kiểm tra","Ca","WO","Ghi chú"]];
+      for (let i = 1; i < records.length; i++) {
+        if (records[i][8] === currentShift && records[i][9] === currentWO) {
+          filteredRecords.push(records[i]);
+        }
+      }
+
+      if (filteredRecords.length <= 1) {
+        alert("⚠️ Không có dữ liệu nào cho ca này!");
+        return;
+      }
+
+      let now = new Date();
+      let filename = `${mahang}_${currentShift.replace(/\s+/g, "_")}_${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}.csv`;
+
+      let csvContent = "\uFEFF" + filteredRecords.map(e => e.join(",")).join("\n");
+      let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      let link = document.createElement("a");
+      if (link.download !== undefined) {
+        let url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+
+    function syncToSheet() {
+      const sheetUrl = "https://script.google.com/macros/s/AKfycbwGCEDo7faBhEh9FCv1ZlrfINyAvfwIg9EbXk-CqwZRYBKVOQJP2hIGjI02JbeWIYJC5A/exec"; 
+      
+      const dataToSend = records
+      .slice(1)
+      .filter(r => !r[11]);
+
+      if (dataToSend.length === 0) {
+        alert("⚠️ Không có dữ liệu để đồng bộ!");
+        return;
+      }
+
+      console.log("Dữ liệu gửi lên Google Sheets:", dataToSend);
+
+      fetch(sheetUrl, {
+        method: "POST",
+        body: JSON.stringify(dataToSend),
+        headers: { "Content-Type": "application/json" },
+        mode: "no-cors"
+      })
+      .then(() => {
+        alert("✅ Đã gửi dữ liệu lên Google Sheets");
+        records = records.map(r => {
+          if (r[11] === false) r[11] = true;
+          return r;
+        });
+        saveLocal();
+        console.log("Đã đánh dấu synced:", records);
+      })
+      .catch(err => {
+        alert("❌ Lỗi đồng bộ: " + err);
+        console.error("Lỗi gửi dữ liệu:", err);
+      });
+    }
+
+    function endShiftReport() {
+      let summary = {};
+      for (let i = 1; i < records.length; i++) {
+        if (records[i][8] === currentShift && records[i][9] === currentWO) {
+          let mahang = records[i][0];
+          let result = records[i][2];
+          let loi = records[i][3];
+
+          if (!summary[mahang]) {
+            summary[mahang] = { ok: 0, ng: 0, loiCount: {} };
+          }
+
+          if (result === "OK") {
+            summary[mahang].ok++;
+          } else if (result === "NG") {
+            summary[mahang].ng++;
+            summary[mahang].loiCount[loi] = (summary[mahang].loiCount[loi] || 0) + 1;
+          }
+        }
+      }
+
+      let report = `📊 Báo cáo ca ${currentShift} (WO: ${currentWO}):\n`;
+      for (let mahang in summary) {
+        let ok = summary[mahang].ok;
+        let ng = summary[mahang].ng;
+        let total = ok + ng;
+        let tyLeNG = total ? ((ng / total) * 100).toFixed(2) : 0;
+        let top3 = Object.entries(summary[mahang].loiCount)
+                         .sort((a,b)=>b[1]-a[1])
+                         .slice(0,3)
+                         .map(x => `${x[0]}(${x[1]})`)
+                         .join(", ") || "Không có";
+
+        report += `\n📦 Mã hàng: ${mahang}\n✅ OK: ${ok} | ❌ NG: ${ng} | 📉 Tỷ lệ NG: ${tyLeNG}%\n🔥 Top lỗi: ${top3}\n`;
+      }
+
+      alert(report);
+    }
+
+    function updateChart() {
+      const canvas = document.getElementById("chartOKNG");
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext("2d");
+      if (chart) chart.destroy();
+      
+      try {
+        chart = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["OK", "NG"],
+            datasets: [{
+              data: [okCount, ngCount],
+              backgroundColor: ["#2ecc71", "#e74c3c"]
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "50%",
+            radius: "90%",
+            plugins: { 
+              legend: { 
+                position: "right",
+                labels: {
+                  usePointStyle: true,
+                  padding: 20
+                }
+              }
+            }
+          }
+        });
+      } catch(e) {
+        console.error("Lỗi khi tạo biểu đồ:", e);
+      }
+    }
+
+    function clearLogDisplay() {
+      if (!confirm("Bạn có chắc muốn xóa bảng hiển thị? (Dữ liệu vẫn còn lưu trong bộ nhớ)")) return;
+      document.querySelector("#logTable tbody").innerHTML = "";
+      alert("✅ Đã xóa hiển thị log. Dữ liệu gốc vẫn còn!");
+    }
+
+    function resetAllData() {
+      if (!confirm("⚠️ Bạn có chắc muốn XÓA TOÀN BỘ dữ liệu (records + bộ đếm)?")) return;
+
+      const backupKey = "backup_records_" + (new Date()).toISOString();
+      try {
+        localStorage.setItem(backupKey, JSON.stringify(records));
+        localStorage.setItem(backupKey + "_qr", JSON.stringify(qrCounter));
+      } catch(e) { console.warn("Backup thất bại:", e); }
+
+      records = [["Mã hàng","QR Code","Kết quả","Lỗi","Giờ","Ngày","Số lần xuất hiện","Người kiểm tra","Ca","WO","Ghi chú"]];
+      qrCounter = {};
+      okCount = 0; ngCount = 0;
+      lastQRCode = null;
+      saveLocal();
+
+      renderTable();
+      recomputeCountsForShift(currentShift || "");
+      alert("✅ Đã reset dữ liệu. Bản backup đã lưu vào localStorage với key: " + backupKey);
+    }
+
+    function deleteRecord(index) {
+      if (!confirm("Bạn có chắc muốn xóa dòng này?")) return;
+
+      index = Number(index);
+      if (isNaN(index) || index < 1 || index >= records.length) {
+        alert("Không tìm thấy bản ghi để xóa.");
+        return;
+      }
+
+      const removed = records.splice(index, 1)[0];
+      const removedQr = removed[1];
+      
+      recomputeCountsForShift(currentShift);
+      
+      saveLocal();
+      renderTable();
+    }
+
+    // ===== PHẦN BÁO CÁO & THỐNG KÊ =====
+    const API_URL = "https://script.google.com/macros/s/AKfycbwGCEDo7faBhEh9FCv1ZlrfINyAvfwIg9EbXk-CqwZRYBKVOQJP2hIGjI02JbeWIYJC5A/exec";
+    let allData = [];
+    let filteredDataGlobal = [];
+    let paretoChart, dailyChart;
+    let clusterize = null;
+
+    function parseDateString(str){
+      if(!str) return null;
+      str = str.toString().trim();
+
+      const m1 = str.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+      if(m1){
+        const d = parseInt(m1[1],10);
+        const m = parseInt(m1[2],10) - 1;
+        const y = parseInt(m1[3],10);
+        const date = new Date(y, m, d, 12, 0, 0);
+        return date;
+      }
+
+      const m2 = str.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+      if(m2){
+        const y = parseInt(m2[1],10);
+        const m = parseInt(m2[2],10)-1;
+        const d = parseInt(m2[3],10);
+        return new Date(y,m,d,12,0,0);
+      }
+
+      const d2 = new Date(str);
+      if(!isNaN(d2)) return new Date(d2.getFullYear(), d2.getMonth(), d2.getDate(), 12, 0, 0);
+
+      return null;
+    }
+
+    function isoDate(d){
+      if (!(d instanceof Date) || isNaN(d)) return null;
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${dd}`;
+    }
+
+    function populateFilters(data){
+      const maSPs = new Set();
+      const pos = new Set();
+      data.forEach(r=>{
+        if (r.maHang) maSPs.add(r.maHang);
+        if (r.po) pos.add(r.po);
+      });
+      fillSelect("maSP",maSPs);
+      fillSelect("po",pos);
+    }
+
+    function fillSelect(id, values){
+      const select = document.getElementById(id);
+      select.innerHTML = `<option value="">Tất cả</option>`;
+      values.forEach(v=>select.innerHTML+=`<option value="${v}">${v}</option>`);
+    }
+
+    function reloadFromGoogle(){
+      fetch(API_URL)
+        .then(res=>{
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return res.json();
+        })
+        .then(data=>{
+          allData = data || [];
+          populateFilters(allData);
+          renderReportTable(allData);
+          
+          if (allData.length > 0) {
+            setTimeout(() => {
+              drawPareto(allData);
+              drawDailyChart(allData);
+            }, 100);
+          }
+        })
+        .catch(err=>{
+          console.error("Không lấy được dữ liệu:", err);
+          alert("❌ Không lấy được dữ liệu: " + err.message);
+        });
+    }
+
+    function applyFilters() {
+      window.preventAutoReload = true;
+      const searchQR = document.getElementById("searchQR").value.trim().toUpperCase();
+      const fromDate = document.getElementById("fromDate").value;
+      const toDate = document.getElementById("toDate").value;
+      const maSP = document.getElementById("maSP").value;
+      const po = document.getElementById("po").value;
+
+      filteredDataGlobal = allData.filter(r => {
+        let match = true;
+
+        const qrValue = r["QR Code"] || r["Qr code"] || r["QR code"] || r.qrCode || r.qr || "";
+        const maHangValue = r["Mã hàng"] || r.maHang || "";
+        const poValue = r["PO"] || r.po || "";
+        const ngayStr = r["Ngày"] || r.ngay;
+        const ngay = parseDateString(ngayStr);
+
+        if (searchQR && !qrValue.toString().toUpperCase().includes(searchQR)) match = false;
+        if (maSP && maHangValue !== maSP) match = false;
+        if (po && poValue !== po) match = false;
+
+        if (fromDate && ngay < new Date(fromDate)) match = false;
+        if (toDate) {
+          const to = new Date(toDate);
+          to.setHours(23, 59, 59, 999);
+          if (ngay > to) match = false;
+        }
+
+        return match;
+      });
+
+      renderReportTable(filteredDataGlobal);
+      drawPareto(filteredDataGlobal);
+      drawDailyChart(filteredDataGlobal);
+      
+      alert(`✅ Đã lọc được ${filteredDataGlobal.length} dòng. Biểu đồ đã được cập nhật!`);
+    }
+
+    function renderReportTable(data) {
+      const rows = data.map(r => {
+        let gioRaw = r["Giờ"] || r.gio || "";
+        let ngayRaw = r["Ngày"] || r.ngay || "";
+
+        function formatDateTime(value, type="date") {
+          if (!value) return "";
+          try {
+            const d = new Date(value);
+            if (isNaN(d)) return value;
+            if (type === "time") return d.toLocaleTimeString("vi-VN", { hour12: false });
+            return d.toLocaleDateString("vi-VN");
+          } catch {
+            return value;
+          }
+        }
+
+        const gio = formatDateTime(gioRaw, "time");
+        const ngay = formatDateTime(ngayRaw, "date");
+
+        return `
+          <tr>
+            <td>${r["Mã hàng"] || r.maHang || ""}</td>
+            <td>${r["QR code"] || r.qrCode || ""}</td>
+            <td>${r["Phán định"] || r.phanDinh || ""}</td>
+            <td>${r["Mô tả lỗi"] || r.moTaLoi || ""}</td>
+            <td>${gio}</td>
+            <td>${ngay}</td>
+            <td>${r["Số lần xuất hiện"] || r.soLan || ""}</td>
+            <td>${r["Mã Nhân Viên"] || r.maNV || r.User || ""}</td>
+            <td>${r["Ca làm việc"] || r.caLam || r.Shift || ""}</td>
+            <td>${r["PO"] || r.po || ""}</td>
+            <td>${r["Ghi chú"] || r.ghichu || ""}</td>
+          </tr>
+        `;
+      });
+
+      if (!clusterize) {
+        clusterize = new Clusterize({
+          rows: rows,
+          scrollId: 'scrollArea',
+          contentId: 'clusterize-content'
+        });
+      } else {
+        clusterize.update(rows);
+      }
+
+      const info = document.getElementById("recordCount");
+      if (info) info.textContent = `Tổng: ${data.length} dòng`;
+    }
+    
+    function drawPareto(data){
+      const canvas = document.getElementById("paretoChart");
+      if (!canvas) {
+        console.error("Không tìm thấy canvas paretoChart");
+        return;
+      }
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        console.error("Không thể lấy context từ canvas");
+        return;
+      }
+
+      const loiCount = {};
+      data.forEach(r=>{
+        const moTaLoi = r["Mô tả lỗi"] || r.moTaLoi || "";
+        const phanDinh = r["Phán định"] || r.phanDinh || "";
+        
+        if (moTaLoi && phanDinh === "NG") {
+          loiCount[moTaLoi] = (loiCount[moTaLoi] || 0) + 1;
+        }
+      });
+      
+      const loiSorted = Object.entries(loiCount).sort((a,b)=>b[1]-a[1]);
+      const labels = loiSorted.map(x=>x[0]);
+      const values = loiSorted.map(x=>x[1]);
+      const total = values.reduce((a,b)=>a+b,0);
+      const cumsum = values.map((sum=>v=>sum+=v)(0));
+      const cumPerc = cumsum.map(s=>(s/total*100).toFixed(1));
+
+      if (paretoChart) {
+        try {
+          paretoChart.destroy();
+        } catch(e) {
+          console.warn("Lỗi khi destroy paretoChart cũ:", e);
+        }
+      }
+
+      try {
+        paretoChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [{
+              label: "Số lỗi",
+              data: values,
+              backgroundColor: "#3498db",
+              order: 2
+            },{
+              label: "Tỷ lệ tích lũy (%)",
+              data: cumPerc,
+              type: "line",
+              borderColor: "#e74c3c",
+              backgroundColor: "rgba(231,76,60,0.1)",
+              fill: true,
+              yAxisID: "y1",
+              order: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: "Số lỗi" }
+              },
+              y1: {
+                position: "right",
+                beginAtZero: true,
+                max: 100,
+                title: { display: true, text: "Tỷ lệ %" },
+                grid: { drawOnChartArea: false }
+              }
+            }
+          }
+        });
+      } catch(e) {
+        console.error("Lỗi khi tạo paretoChart:", e);
+      }
+    }
+
+    function drawDailyChart(data) {
+      const canvas = document.getElementById("dailyChart");
+      if (!canvas) {
+        console.error("Không tìm thấy canvas dailyChart");
+        return;
+      }
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        console.error("Không thể lấy context từ canvas");
+        return;
+      }
+
+      const dailyCount = {};
+      let minDate = null, maxDate = null;
+
+      data.forEach(r => {
+        const ngayStr = r["Ngày"] || r.ngay;
+        const phanDinh = r["Phán định"] || r.phanDinh || "";
+        
+        if (ngayStr) {
+          const d = parseDateString(ngayStr);
+          if (d) {
+            if (!minDate || d < minDate) minDate = d;
+            if (!maxDate || d > maxDate) maxDate = d;
+
+            const iso = isoDate(d);
+            if (!dailyCount[iso]) dailyCount[iso] = { ok: 0, ng: 0 };
+            if (phanDinh === "OK") dailyCount[iso].ok++;
+            else if (phanDinh === "NG") dailyCount[iso].ng++;
+          }
+        }
+      });
+
+      const dates = [];
+      if (minDate && maxDate) {
+        let cur = new Date(minDate);
+        while (cur <= maxDate) {
+          dates.push(isoDate(cur));
+          cur.setDate(cur.getDate() + 1);
+        }
+      }
+
+      const okData = dates.map(d => dailyCount[d]?.ok || 0);
+      const ngData = dates.map(d => dailyCount[d]?.ng || 0);
+      const totalData = dates.map(d => (dailyCount[d]?.ok || 0) + (dailyCount[d]?.ng || 0));
+      const percNG = dates.map(d => {
+        const total = (dailyCount[d]?.ok || 0) + (dailyCount[d]?.ng || 0);
+        return total > 0 ? ((dailyCount[d].ng / total) * 100).toFixed(2) : 0;
+      });
+
+      if (dailyChart) {
+        try {
+          dailyChart.destroy();
+        } catch(e) {
+          console.warn("Lỗi khi destroy dailyChart cũ:", e);
+        }
+      }
+
+      try {
+        dailyChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: dates,
+            datasets: [
+              {
+                label: "Tổng số lượng",
+                data: totalData,
+                backgroundColor: "#2ecc71",
+                yAxisID: "y",
+              },
+              {
+                label: "NG",
+                data: ngData,
+                backgroundColor: "#e74c3c",
+                yAxisID: "y",
+              },
+              {
+                label: "% NG/Tổng",
+                data: percNG,
+                type: "line",
+                borderColor: "#2980b9",
+                backgroundColor: "rgba(52,152,219,0.1)",
+                yAxisID: "y1",
+                tension: 0.3,
+                fill: false,
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: "Số lượng" }
+              },
+              y1: {
+                position: "right",
+                beginAtZero: true,
+                max: 100,
+                title: { display: true, text: "% NG" },
+                grid: { drawOnChartArea: false }
+              },
+              x: {
+                title: { display: true, text: "Ngày" }
+              }
+            }
+          }
+        });
+      } catch(e) {
+        console.error("Lỗi khi tạo dailyChart:", e);
+      }
+    }
+
+    // Khởi tạo khi trang được tải
+    window.onload = function() {
+      recomputeCountsForShift(currentShift || "");
+      renderTable();
+      updateChart();
+      loadPrinterConfig();
+
+      // Thêm event listeners cho loại máy in
+      document.querySelectorAll('input[name="printerType"]').forEach(radio => {
+        radio.addEventListener('change', updatePrinterTypeUI);
+      });
+
+      document.getElementById("deliveryQty").addEventListener("input", ()=>{
+        deliveryTarget = parseInt(document.getElementById("deliveryQty").value) || 0;
+        deliveryCounter = 0;
+        if (deliveryTarget > 0) {
+          document.getElementById("deliveryStatus").textContent = `🔄 Đã đặt mục tiêu: ${deliveryTarget}`;
+        } else {
+          document.getElementById("deliveryStatus").textContent = "";
+        }
+      });
+
+      window.addEventListener("storage", (event) => {
+        if (event.key === "records") {
+          records = JSON.parse(event.newValue || "[]");
+          renderTable();
+          recomputeCountsForShift(currentShift || "");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
