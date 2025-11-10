@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>KẾT QUẢ TEST</title>
+  <title>KẾT QUẢ TEST - Zebra ZT610</title>
   <style>
     /* Common styles */
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f7fa; }
@@ -177,6 +177,14 @@
       margin: 10px 0;
       border: 1px solid #b8daff;
     }
+    
+    .usb-troubleshoot {
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #ffeaa7;
+      margin: 15px 0;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/clusterize.js@0.18.1/clusterize.min.js"></script>
@@ -185,7 +193,7 @@
 <body>
   <div style="margin-top:20px; display:flex; gap:10px; ">
     <img src="logo.png" alt="Logo" style="height: 100px; width: auto; margin-right: 20px;">
-    <h2>📊 KẾT QUẢ TEST</h2>
+    <h2>📊 KẾT QUẢ TEST - ZEBRA ZT610</h2>
   </div>
 
   <div class="tab-buttons">
@@ -433,7 +441,7 @@
   <!-- Tab 4: Cấu hình Máy in -->
   <div id="tab4" class="tab-content">
     <div class="printer-config-panel">
-      <h3>🖨️ CẤU HÌNH MÁY IN THẬT</h3>
+      <h3>🖨️ CẤU HÌNH MÁY IN ZEBRA ZT610</h3>
       
       <div class="config-section">
         <h4>📡 Loại kết nối</h4>
@@ -465,26 +473,29 @@
       </div>
 
       <div class="config-section" id="usbConfig">
-  <h4>🔌 Cấu hình USB</h4>
-  
-  <div id="usbDeviceInfo" class="usb-device-info" style="display: none;">
-    <strong>📋 Thiết bị đã chọn:</strong>
-    <div id="usbDeviceDetails" style="font-size: 12px; margin-top: 5px;"></div>
-  </div>
-  
-  <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-    <button onclick="requestUSBDevice()" style="background:#17a2b8;color:white;">🔌 Chọn thiết bị USB</button>
-    <button onclick="testUSBPrinter()" style="background:#27ae60;color:white;">🧪 Kiểm tra máy in</button>
-    <button onclick="showUSBPermissionStatus()" style="background:#f39c12;color:white;">🔍 Kiểm tra quyền</button>
-  </div>
-  
-  <div style="margin-top: 10px; font-size: 12px; color: #666; background: #fff3cd; padding: 8px; border-radius: 4px;">
-    <strong>📝 Lưu ý quan trọng:</strong><br>
-    • Chỉ hoạt động trên <strong>Chrome/Edge</strong><br>
-    • Click <strong>🔒 icon</strong> trong thanh địa chỉ → "Site settings" → "USB devices" → <strong>"Allow"</strong><br>
-    • Đảm bảo máy in được kết nối và bật nguồn
-  </div>
-</div>
+        <h4>🔌 CẤU HÌNH USB - ZEBRA ZT610</h4>
+        
+        <div id="usbDeviceInfo" class="usb-device-info" style="display: none;">
+          <strong>📋 Thiết bị đã chọn:</strong>
+          <div id="usbDeviceDetails" style="font-size: 12px; margin-top: 5px;"></div>
+        </div>
+        
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+          <button onclick="quickUSBCheck()" style="background:#9b59b6;color:white;">🔎 Kiểm tra nhanh USB</button>
+          <button onclick="requestUSBDevice()" style="background:#17a2b8;color:white;">🔌 Chọn thiết bị USB</button>
+          <button onclick="testUSBPrinter()" style="background:#27ae60;color:white;">🧪 Kiểm tra máy in</button>
+          <button onclick="showUSBPermissionStatus()" style="background:#f39c12;color:white;">🔍 Kiểm tra quyền</button>
+        </div>
+        
+        <div class="usb-troubleshoot">
+          <strong>🚨 KHẮC PHỤC SỰ CỐ ZEBRA ZT610:</strong><br>
+          1. <strong>Kết nối USB</strong>: Cắm trực tiếp vào máy tính (không qua hub)<br>
+          2. <strong>Bật nguồn</strong>: Đảm bảo ZT610 đang bật và sẵn sàng<br>
+          3. <strong>Trình duyệt</strong>: Dùng Chrome/Edge phiên bản mới<br>
+          4. <strong>Quyền USB</strong>: Click 🔒 icon → "Site settings" → "USB devices" → "Allow"<br>
+          5. <strong>Driver</strong>: Cài đặt driver Zebra Link-OS nếu cần
+        </div>
+      </div>
 
       <div class="config-section" id="localConfig" style="display: none;">
         <h4>💻 Máy in cục bộ</h4>
@@ -494,12 +505,12 @@
       </div>
 
       <div class="config-section">
-        <h4>⚙️ Cấu hình nhãn</h4>
+        <h4>⚙️ CẤU HÌNH NHÃN 25x10mm</h4>
         <label for="labelWidth">Chiều rộng (mm):</label>
-        <input type="number" id="labelWidth" value="50" min="10" max="100" style="width: 80px;">
+        <input type="number" id="labelWidth" value="25" min="10" max="100" style="width: 80px;">
         
         <label for="labelHeight" style="margin-left: 15px;">Chiều cao (mm):</label>
-        <input type="number" id="labelHeight" value="30" min="10" max="100" style="width: 80px;">
+        <input type="number" id="labelHeight" value="10" min="5" max="50" style="width: 80px;">
         
         <label for="printDensity" style="margin-left: 15px;">Mật độ in:</label>
         <select id="printDensity">
@@ -508,16 +519,9 @@
           <option value="10">10 - Đậm</option>
           <option value="12">12 - Rất đậm</option>
         </select>
-      </div>
-
-      <div class="config-section">
-        <h4>🔧 Hướng dẫn cấu hình</h4>
-        <div style="font-size: 12px; color: #666; background: #f8f9fa; padding: 10px; border-radius: 4px;">
-          <strong>Đối với máy in USB Zebra:</strong><br>
-          1. Kết nối máy in qua cổng USB<br>
-          2. Nhấn "Chọn thiết bị USB" và chọn máy in Zebra<br>
-          3. Nhấn "Kiểm tra máy in" để xác nhận hoạt động<br>
-          4. Đảm bảo dùng Chrome/Edge và cho phép quyền USB
+        
+        <div style="margin-top: 10px; font-size: 12px; color: #666;">
+          <strong>Kích thước nhãn:</strong> 25mm x 10mm (200 dots x 80 dots)
         </div>
       </div>
 
@@ -578,9 +582,9 @@
       type: 'usb',
       ip: '192.168.1.100',
       port: 9100,
-      localName: 'ZDesigner GT800',
-      labelWidth: 50,
-      labelHeight: 30,
+      localName: 'ZDesigner ZT610',
+      labelWidth: 25,  // 25mm cho ZT610
+      labelHeight: 10, // 10mm cho ZT610
       density: 8
     };
 
@@ -620,8 +624,8 @@
         document.getElementById('printerIP').value = printerConfig.ip || '';
         document.getElementById('printerPort').value = printerConfig.port || 9100;
         document.getElementById('localPrinterName').value = printerConfig.localName || '';
-        document.getElementById('labelWidth').value = printerConfig.labelWidth || 50;
-        document.getElementById('labelHeight').value = printerConfig.labelHeight || 30;
+        document.getElementById('labelWidth').value = printerConfig.labelWidth || 25;
+        document.getElementById('labelHeight').value = printerConfig.labelHeight || 10;
         document.getElementById('printDensity').value = printerConfig.density || 8;
         
         updatePrinterTypeUI();
@@ -645,7 +649,7 @@
       if (usbDevice) {
         usbInfo.style.display = 'block';
         usbDetails.innerHTML = `
-          <div>📦 ${usbDevice.productName || 'Máy in Zebra'}</div>
+          <div>📦 ${usbDevice.productName || 'Máy in Zebra ZT610'}</div>
           <div>🔌 Vendor: 0x${usbDevice.vendorId.toString(16).toUpperCase()}</div>
           <div>🆔 Product: 0x${usbDevice.productId.toString(16).toUpperCase()}</div>
           <div>📶 Trạng thái: ${usbDevice.opened ? '✅ Đã kết nối' : '🔴 Chưa kết nối'}</div>
@@ -655,23 +659,72 @@
       }
     }
 
-    // Yêu cầu thiết bị USB - SỬA LẠI
-    // Yêu cầu thiết bị USB - SỬA LẠI VỚI XỬ LÝ LỖI CHI TIẾT
-async function requestUSBDevice() {
-  if (!navigator.usb) {
-    alert('Trình duyệt không hỗ trợ WebUSB API. Hãy dùng Chrome hoặc Edge phiên bản mới nhất.');
-    return;
-  }
+    // Kiểm tra thiết bị USB có sẵn
+    async function checkUSBDevices() {
+      if (!navigator.usb) {
+        return { supported: false, devices: [] };
+      }
 
-  try {
-    // Hiển thị hướng dẫn trước khi yêu cầu
-    const userConfirmed = confirm(`🔧 CẤU HÌNH QUYỀN USB
+      try {
+        const devices = await navigator.usb.getDevices();
+        const zebraDevices = devices.filter(device => {
+          const vid = device.vendorId.toString(16).toUpperCase();
+          // Zebra Vendor IDs - ĐÃ THÊM ZT610
+          return ['0A5F', '05C6', '15BA', '0C2E'].includes(vid);
+        });
+        
+        return { 
+          supported: true, 
+          devices: zebraDevices,
+          zebraCount: zebraDevices.length
+        };
+      } catch (error) {
+        return { supported: true, devices: [], error: error.message };
+      }
+    }
 
-Để kết nối máy in USB, bạn cần:
+    // Kiểm tra nhanh USB
+    async function quickUSBCheck() {
+      const status = await checkUSBDevices();
+      let message = '🔍 KIỂM TRA NHANH USB:\n\n';
+      
+      if (!status.supported) {
+        message += '❌ Trình duyệt không hỗ trợ WebUSB\n👉 Hãy dùng Chrome/Edge phiên bản mới';
+      } else if (status.zebraCount > 0) {
+        message += `✅ Tìm thấy ${status.zebraCount} máy in Zebra\n`;
+        message += `📦 Có thể kết nối ngay!`;
+        
+        // Tự động chọn thiết bị đầu tiên
+        usbDevice = status.devices[0];
+        try {
+          await connectToUSBDevice();
+          message += '\n\n🔗 Đã tự động kết nối thành công!';
+        } catch (error) {
+          message += `\n\n❌ Lỗi kết nối: ${error.message}`;
+        }
+      } else {
+        message += '❌ Không tìm thấy máy in Zebra\n';
+        message += '👉 Hãy kết nối máy in và nhấn "Chọn thiết bị USB"';
+      }
+      
+      alert(message);
+    }
+
+    // Yêu cầu thiết bị USB - ĐÃ SỬA CHO ZT610
+    async function requestUSBDevice() {
+      if (!navigator.usb) {
+        alert('Trình duyệt không hỗ trợ WebUSB API. Hãy dùng Chrome hoặc Edge phiên bản mới nhất.');
+        return;
+      }
+
+      try {
+        const userConfirmed = confirm(`🔧 CẤU HÌNH QUYỀN USB - ZEBRA ZT610
+
+Để kết nối máy in ZT610, bạn cần:
 
 1. Dùng Chrome/Edge phiên bản mới
 2. Cho phép trang web truy cập USB
-3. Chọn đúng máy in Zebra trong danh sách
+3. Chọn đúng máy in Zebra ZT610 trong danh sách
 
 👉 Click vào 🔒 icon trong thanh địa chỉ
 👉 Chọn "Site settings" 
@@ -679,108 +732,87 @@ async function requestUSBDevice() {
 
 Bấm OK để tiếp tục chọn máy in.`);
 
-    if (!userConfirmed) return;
+        if (!userConfirmed) return;
 
-    updatePrinterStatus('🔄 Đang yêu cầu quyền truy cập USB...', 'testing');
+        updatePrinterStatus('🔄 Đang yêu cầu quyền truy cập USB...', 'testing');
 
-    // Thêm timeout để tránh treo
-    const usbRequestPromise = navigator.usb.requestDevice({ 
-      filters: [
-        { vendorId: 0x05C6 }, // Zebra Technologies
-        { vendorId: 0x0A5F }, // Zebra
-        { vendorId: 0x15BA }, // Seagull Scientific
-        { vendorId: 0x0C2E }, // Zebra alternate
-      ]
-    });
+        // VENDOR ID CHO ZEBRA ZT610
+        usbDevice = await navigator.usb.requestDevice({ 
+          filters: [
+            { vendorId: 0x0A5F }, // Zebra ZT610 (chính)
+            { vendorId: 0x05C6 }, // Zebra Technologies
+            { vendorId: 0x15BA }, // Seagull Scientific
+            { vendorId: 0x0C2E }, // Zebra alternate
+          ]
+        });
 
-    // Timeout sau 30 giây
-    const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('Timeout: Không thể truy cập USB. Kiểm tra quyền trình duyệt.')), 30000);
-    });
+        if (!usbDevice) {
+          throw new Error('Không chọn được thiết bị USB');
+        }
 
-    usbDevice = await Promise.race([usbRequestPromise, timeoutPromise]);
-    
-    if (!usbDevice) {
-      throw new Error('Không chọn được thiết bị USB');
+        await connectToUSBDevice();
+        
+      } catch (error) {
+        console.error('Lỗi USB:', error);
+        updatePrinterStatus('🔴 Lỗi kết nối USB: ' + error.message, 'disconnected');
+        
+        if (error.message.includes('No device selected')) {
+          alert(`❌ Không chọn được máy in Zebra ZT610\n\nHãy:\n1. Đảm bảo máy in được kết nối USB và bật nguồn\n2. Dùng Chrome/Edge\n3. Cho phép quyền USB khi trình duyệt hỏi`);
+        } else {
+          alert('❌ Lỗi USB: ' + error.message);
+        }
+      }
     }
 
-    // Tự động kết nối ngay sau khi chọn
-    await connectToUSBDevice();
-    
-  } catch (error) {
-    console.error('Lỗi USB:', error);
-    
-    let errorMessage = 'Lỗi không xác định';
-    
-    if (error.message.includes('Access denied') || error.message.includes('No device selected')) {
-      errorMessage = `❌ QUYỀN TRUY CẬP BỊ TỪ CHỐI
+    // Kiểm tra quyền USB
+    async function checkUSBPermission() {
+      if (!navigator.usb) {
+        return { supported: false, message: 'Trình duyệt không hỗ trợ WebUSB' };
+      }
 
-Giải pháp:
-1. Đảm bảo dùng Chrome/Edge
-2. Click 🔒 icon trong thanh địa chỉ
-3. Chọn "Site settings"
-4. Tìm "USB devices" và chọn "Allow"
-5. Thử lại kết nối
-
-Lỗi chi tiết: ${error.message}`;
-    } else if (error.message.includes('Timeout')) {
-      errorMessage = `⏰ HẾT THỜI GIAN CHỜ
-
-Trình duyệt không phản hồi yêu cầu USB. Hãy:
-1. Refresh trang và thử lại
-2. Kiểm tra quyền USB trong cài đặt site
-3. Đảm bảo máy in được kết nối và bật nguồn`;
-    } else {
-      errorMessage = `❌ LỖI USB: ${error.message}`;
+      try {
+        const devices = await navigator.usb.getDevices();
+        return { 
+          supported: true, 
+          hasPermission: devices.length > 0,
+          devices: devices
+        };
+      } catch (error) {
+        return { 
+          supported: true, 
+          hasPermission: false, 
+          error: error.message 
+        };
+      }
     }
-    
-    updatePrinterStatus('🔴 Lỗi kết nối USB', 'disconnected');
-    alert(errorMessage);
-  }
-}
 
-// Kiểm tra quyền USB
-async function checkUSBPermission() {
-  if (!navigator.usb) {
-    return { supported: false, message: 'Trình duyệt không hỗ trợ WebUSB' };
-  }
+    // Hiển thị trạng thái quyền USB
+    async function showUSBPermissionStatus() {
+      const status = await checkUSBPermission();
+      
+      let message = '🔍 TRẠNG THÁI QUYỀN USB:\n\n';
+      
+      if (!status.supported) {
+        message += '❌ Trình duyệt không hỗ trợ WebUSB\n👉 Hãy dùng Chrome/Edge phiên bản mới';
+      } else if (status.hasPermission) {
+        message += '✅ Đã có quyền truy cập USB\n';
+        message += `📦 Số thiết bị: ${status.devices.length}`;
+        
+        if (status.devices.length > 0) {
+          message += '\n\n📋 Thiết bị đã kết nối:';
+          status.devices.forEach((device, index) => {
+            message += `\n${index + 1}. ${device.productName || 'Unknown'} (VID: 0x${device.vendorId.toString(16).toUpperCase()})`;
+          });
+        }
+      } else {
+        message += '⚠️ Chưa có quyền truy cập USB\n';
+        message += '👉 Nhấn "Chọn thiết bị USB" để cấp quyền';
+      }
+      
+      alert(message);
+    }
 
-  try {
-    // Thử getDevices để kiểm tra quyền
-    const devices = await navigator.usb.getDevices();
-    return { 
-      supported: true, 
-      hasPermission: devices.length > 0,
-      devices: devices
-    };
-  } catch (error) {
-    return { 
-      supported: true, 
-      hasPermission: false, 
-      error: error.message 
-    };
-  }
-}
-
-// Hiển thị trạng thái quyền USB
-async function showUSBPermissionStatus() {
-  const status = await checkUSBPermission();
-  
-  let message = '🔍 TRẠNG THÁI QUYỀN USB:\n\n';
-  
-  if (!status.supported) {
-    message += '❌ Trình duyệt không hỗ trợ WebUSB\n👉 Hãy dùng Chrome/Edge phiên bản mới';
-  } else if (status.hasPermission) {
-    message += '✅ Đã có quyền truy cập USB\n';
-    message += `📦 Số thiết bị: ${status.devices.length}`;
-  } else {
-    message += '⚠️ Chưa có quyền truy cập USB\n';
-    message += '👉 Nhấn "Chọn thiết bị USB" để cấp quyền';
-  }
-  
-  alert(message);
-}
-    // Kết nối tới thiết bị USB
+    // Kết nối tới thiết bị USB - ĐÃ SỬA
     async function connectToUSBDevice() {
       if (!usbDevice) {
         throw new Error('Chưa chọn thiết bị USB');
@@ -790,8 +822,26 @@ async function showUSBPermissionStatus() {
         updatePrinterStatus('🔄 Đang kết nối USB...', 'testing');
         
         await usbDevice.open();
-        await usbDevice.selectConfiguration(1);
-        await usbDevice.claimInterface(0);
+        
+        // THỬ CÁC CONFIGURATION KHÁC NHAU CHO ZT610
+        const configurations = usbDevice.configurations;
+        let connected = false;
+        
+        for (let i = 0; i < configurations.length; i++) {
+          try {
+            await usbDevice.selectConfiguration(configurations[i].configurationValue);
+            await usbDevice.claimInterface(0); // Interface 0 thường cho máy in
+            connected = true;
+            break;
+          } catch (e) {
+            console.log(`Thử configuration ${i} thất bại:`, e);
+            continue;
+          }
+        }
+        
+        if (!connected) {
+          throw new Error('Không thể kết nối với bất kỳ configuration nào');
+        }
         
         updatePrinterStatus('✅ Đã kết nối USB thành công', 'connected');
         updateUSBDeviceInfo();
@@ -804,7 +854,7 @@ async function showUSBPermissionStatus() {
       }
     }
 
-    // Gửi lệnh tới máy in USB - SỬA LẠI
+    // Gửi lệnh tới máy in USB - ĐÃ SỬA
     async function sendToUSBPrinter(zplCode) {
       if (!usbDevice) {
         throw new Error('Chưa chọn thiết bị USB. Hãy nhấn "Chọn thiết bị USB" trước.');
@@ -819,40 +869,31 @@ async function showUSBPermissionStatus() {
         const encoder = new TextEncoder();
         const data = encoder.encode(zplCode);
         
-        // Gửi dữ liệu qua endpoint out (thường là 1 hoặc 2)
-        const result = await usbDevice.transferOut(1, data);
+        // THỬ CÁC ENDPOINT KHÁC NHAU CHO ZT610
+        let success = false;
+        const endpoints = [1, 2, 3]; // Thử các endpoint phổ biến
         
-        console.log('Đã gửi ZPL qua USB:', result);
+        for (const endpoint of endpoints) {
+          try {
+            const result = await usbDevice.transferOut(endpoint, data);
+            console.log(`Đã gửi ZPL qua USB endpoint ${endpoint}:`, result);
+            success = true;
+            break;
+          } catch (endpointError) {
+            console.log(`Endpoint ${endpoint} thất bại:`, endpointError);
+            continue;
+          }
+        }
+        
+        if (!success) {
+          throw new Error('Không tìm thấy endpoint phù hợp cho máy in ZT610');
+        }
+        
         return true;
         
       } catch (error) {
         console.error('Lỗi gửi USB:', error);
-        
-        // Thử endpoint khác nếu endpoint 1 fail
-        if (error.message.includes('Endpoint') || error.message.includes('not found')) {
-          return await tryAlternativeUSBEndpoint(zplCode);
-        }
-        
         throw new Error('Lỗi gửi lệnh USB: ' + error.message);
-      }
-    }
-
-    // Thử endpoint USB thay thế
-    async function tryAlternativeUSBEndpoint(zplCode) {
-      try {
-        console.log('Thử endpoint thay thế...');
-        
-        const encoder = new TextEncoder();
-        const data = encoder.encode(zplCode);
-        
-        // Thử endpoint 2
-        const result = await usbDevice.transferOut(2, data);
-        console.log('Thành công với endpoint 2');
-        return true;
-        
-      } catch (secondError) {
-        console.error('Cả hai endpoint đều thất bại:', secondError);
-        throw new Error('Không tìm thấy endpoint phù hợp cho máy in USB');
       }
     }
 
@@ -866,15 +907,15 @@ async function showUSBPermissionStatus() {
       try {
         updatePrinterStatus('🔄 Đang kiểm tra máy in USB...', 'testing');
         
-        const testZPL = '^XA^FO20,20^A0N,25,25^FDKIEM TRA USB^FS^XZ';
+        const testZPL = generateTestZPL();
         await sendToUSBPrinter(testZPL);
         
-        updatePrinterStatus('✅ Máy in USB hoạt động tốt', 'connected');
-        alert('✅ Kiểm tra máy in USB thành công!');
+        updatePrinterStatus('✅ Máy in ZT610 hoạt động tốt', 'connected');
+        alert('✅ Kiểm tra máy in ZT610 thành công! Nhãn thử nghiệm đã được in.');
         
       } catch (error) {
         updatePrinterStatus('❌ Lỗi máy in USB: ' + error.message, 'disconnected');
-        alert('❌ Lỗi kiểm tra USB: ' + error.message);
+        alert('❌ Lỗi kiểm tra ZT610: ' + error.message);
       }
     }
 
@@ -915,7 +956,7 @@ async function showUSBPermissionStatus() {
       updatePrinterStatus('🔄 Đang kiểm tra kết nối...', 'testing');
       
       try {
-        const testZPL = '^XA^FO20,20^A0N,25,25^FDKIEM TRA KET NOI^FS^XZ';
+        const testZPL = generateTestZPL();
         await sendToNetworkPrinter(testZPL);
         
         updatePrinterStatus('✅ Kết nối máy in mạng thành công', 'connected');
@@ -967,7 +1008,7 @@ async function showUSBPermissionStatus() {
 
     // Kiểm tra kết nối máy in
     async function checkPrinterConnection() {
-      const testZPL = '^XA^FO20,20^A0N,25,25^FDKIEM TRA KET NOI^FS^XZ';
+      const testZPL = generateTestZPL();
       
       try {
         await sendToPrinter(testZPL);
@@ -978,32 +1019,28 @@ async function showUSBPermissionStatus() {
       }
     }
 
-    // Tạo ZPL cho QR code thật
+    // Tạo ZPL cho QR code thật - ĐÃ SỬA CHO NHÃN 25x10mm
     function generateZPLForRealPrinter(qrData) {
       const { code, mahang, wo } = qrData;
-      const width = Math.min(printerConfig.labelWidth * 8, 800);
-      const height = Math.min(printerConfig.labelHeight * 8, 600);
       
+      // ĐIỀU CHỈNH CHO NHÃN 25x10mm (200 dots x 80 dots)
       return `^XA
-^PW${width}
-^LL${height}
-^MD${printerConfig.density}
-^FO20,20^A0N,25,25^FD${mahang || 'NO PRODUCT'}^FS
-^FO20,50^A0N,20,20^FDWO: ${wo || 'NO WO'}^FS
-^FO20,80^BQN,2,6^FDQA,${code}^FS
-^FO20,180^A0N,15,15^FD${new Date().toLocaleDateString('vi-VN')}^FS
+^PW200    ; Chiều rộng 25mm = 200 dots (8 dots/mm)
+^LL80     ; Chiều cao 10mm = 80 dots
+^FO5,5^A0N,15,15^FD${mahang || 'NO PRODUCT'}^FS
+^FO5,25^BQN,2,4^FDQA,${code}^FS
+^FO5,55^A0N,10,10^FD${new Date().toLocaleDateString('vi-VN')}^FS
 ^XZ`.trim();
     }
 
-    // Tạo ZPL thử nghiệm
+    // Tạo ZPL thử nghiệm cho ZT610
     function generateTestZPL() {
       return `^XA
-^PW${printerConfig.labelWidth * 8}
-^LL${printerConfig.labelHeight * 8}
-^FO20,20^A0N,25,25^FDTEST LABEL^FS
-^FO20,50^A0N,20,20^FD${new Date().toLocaleString('vi-VN')}^FS
-^FO20,80^BQN,2,6^FDQA,TEST123456^FS
-^FO20,180^A0N,15,15^FDConfig: ${printerConfig.type}^FS
+^PW200
+^LL80
+^FO5,5^A0N,15,15^FDTEST ZT610^FS
+^FO5,25^BQN,2,4^FDQA,TEST123456^FS
+^FO5,55^A0N,10,10^FD${new Date().toLocaleString('vi-VN')}^FS
 ^XZ`.trim();
     }
 
@@ -1020,7 +1057,7 @@ async function showUSBPermissionStatus() {
       }
     }
 
-    // In QR code thật - SỬA LẠI
+    // In QR code thật
     async function printQRNowReal() {
       if (!lastQRCode) {
         alert("Không có QR code để in!");
@@ -1042,8 +1079,8 @@ async function showUSBPermissionStatus() {
         const zplCode = generateZPLForRealPrinter(lastQRCode);
         await sendToPrinter(zplCode);
         
-        showPrintingStatus('✅ Đã gửi lệnh in tới máy in!', 'success');
-        updatePrinterStatus('✅ Máy in sẵn sàng', 'connected');
+        showPrintingStatus('✅ Đã gửi lệnh in tới máy in ZT610!', 'success');
+        updatePrinterStatus('✅ Máy in ZT610 sẵn sàng', 'connected');
         
       } catch (error) {
         console.error('Lỗi in:', error);
@@ -1107,7 +1144,7 @@ async function showUSBPermissionStatus() {
       `;
 
       fallbackWindow.innerHTML = `
-        <h3 style="color: #e74c3c; margin-top: 0;">⚠️ KHÔNG THỂ KẾT NỐI MÁY IN</h3>
+        <h3 style="color: #e74c3c; margin-top: 0;">⚠️ KHÔNG THỂ KẾT NỐI MÁY IN ZT610</h3>
         <p>Copy ZPL code bên dưới và gửi thủ công tới máy in:</p>
         
         <textarea 
@@ -2062,150 +2099,203 @@ async function showUSBPermissionStatus() {
     }
 
     function drawDailyChart(data) {
-      const canvas = document.getElementById("dailyChart");
-      if (!canvas) {
-        console.error("Không tìm thấy canvas dailyChart");
-        return;
+  const canvas = document.getElementById("dailyChart");
+  if (!canvas) {
+    console.error("Không tìm thấy canvas dailyChart");
+    return;
+  }
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    console.error("Không thể lấy context từ canvas");
+    return;
+  }
+
+  const dailyCount = {};
+  let minDate = null, maxDate = null;
+
+  data.forEach(r => {
+    const ngayStr = r["Ngày"] || r.ngay;
+    const phanDinh = r["Phán định"] || r.phanDinh || "";
+    
+    if (ngayStr) {
+      const d = parseDateString(ngayStr);
+      if (d) {
+        if (!minDate || d < minDate) minDate = d;
+        if (!maxDate || d > maxDate) maxDate = d;
+
+        const iso = isoDate(d);
+        if (!dailyCount[iso]) dailyCount[iso] = { ok: 0, ng: 0 };
+        if (phanDinh === "OK") dailyCount[iso].ok++;
+        else if (phanDinh === "NG") dailyCount[iso].ng++;
       }
+    }
+  });
 
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        console.error("Không thể lấy context từ canvas");
-        return;
-      }
+  const dates = [];
+  if (minDate && maxDate) {
+    let cur = new Date(minDate);
+    while (cur <= maxDate) {
+      dates.push(isoDate(cur));
+      cur.setDate(cur.getDate() + 1);
+    }
+  }
 
-      const dailyCount = {};
-      let minDate = null, maxDate = null;
+  const okData = dates.map(d => dailyCount[d]?.ok || 0);
+  const ngData = dates.map(d => dailyCount[d]?.ng || 0);
+  const totalData = dates.map(d => (dailyCount[d]?.ok || 0) + (dailyCount[d]?.ng || 0));
+  const percNG = dates.map(d => {
+    const total = (dailyCount[d]?.ok || 0) + (dailyCount[d]?.ng || 0);
+    return total > 0 ? ((dailyCount[d].ng / total) * 100).toFixed(2) : 0;
+  });
 
-      data.forEach(r => {
-        const ngayStr = r["Ngày"] || r.ngay;
-        const phanDinh = r["Phán định"] || r.phanDinh || "";
-        
-        if (ngayStr) {
-          const d = parseDateString(ngayStr);
-          if (d) {
-            if (!minDate || d < minDate) minDate = d;
-            if (!maxDate || d > maxDate) maxDate = d;
+  if (dailyChart) {
+    try {
+      dailyChart.destroy();
+    } catch(e) {
+      console.warn("Lỗi khi destroy dailyChart cũ:", e);
+    }
+  }
 
-            const iso = isoDate(d);
-            if (!dailyCount[iso]) dailyCount[iso] = { ok: 0, ng: 0 };
-            if (phanDinh === "OK") dailyCount[iso].ok++;
-            else if (phanDinh === "NG") dailyCount[iso].ng++;
-          }
-        }
-      });
-
-      const dates = [];
-      if (minDate && maxDate) {
-        let cur = new Date(minDate);
-        while (cur <= maxDate) {
-          dates.push(isoDate(cur));
-          cur.setDate(cur.getDate() + 1);
-        }
-      }
-
-      const okData = dates.map(d => dailyCount[d]?.ok || 0);
-      const ngData = dates.map(d => dailyCount[d]?.ng || 0);
-      const totalData = dates.map(d => (dailyCount[d]?.ok || 0) + (dailyCount[d]?.ng || 0));
-      const percNG = dates.map(d => {
-        const total = (dailyCount[d]?.ok || 0) + (dailyCount[d]?.ng || 0);
-        return total > 0 ? ((dailyCount[d].ng / total) * 100).toFixed(2) : 0;
-      });
-
-      if (dailyChart) {
-        try {
-          dailyChart.destroy();
-        } catch(e) {
-          console.warn("Lỗi khi destroy dailyChart cũ:", e);
-        }
-      }
-
-      try {
-        dailyChart = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: dates,
-            datasets: [
-              {
-                label: "Tổng số lượng",
-                data: totalData,
-                backgroundColor: "#2ecc71",
-                yAxisID: "y",
-              },
-              {
-                label: "NG",
-                data: ngData,
-                backgroundColor: "#e74c3c",
-                yAxisID: "y",
-              },
-              {
-                label: "% NG/Tổng",
-                data: percNG,
-                type: "line",
-                borderColor: "#2980b9",
-                backgroundColor: "rgba(52,152,219,0.1)",
-                yAxisID: "y1",
-                tension: 0.3,
-                fill: false,
-              }
-            ]
+  try {
+    dailyChart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: dates,
+        datasets: [
+          {
+            label: "Tổng số lượng",
+            data: totalData,
+            backgroundColor: "#2ecc71",
+            yAxisID: "y",
           },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              y: {
-                beginAtZero: true,
-                title: { display: true, text: "Số lượng" }
-              },
-              y1: {
-                position: "right",
-                beginAtZero: true,
-                max: 100,
-                title: { display: true, text: "% NG" },
-                grid: { drawOnChartArea: false }
-              },
-              x: {
-                title: { display: true, text: "Ngày" }
-              }
-            }
+          {
+            label: "NG",
+            data: ngData,
+            backgroundColor: "#e74c3c",
+            yAxisID: "y",
+          },
+          {
+            label: "% NG/Tổng",
+            data: percNG,
+            type: "line",
+            borderColor: "#2980b9",
+            backgroundColor: "rgba(52,152,219,0.1)",
+            yAxisID: "y1",
+            tension: 0.3,
+            fill: false,
           }
-        });
-      } catch(e) {
-        console.error("Lỗi khi tạo dailyChart:", e);
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: "Số lượng" }
+          },
+          y1: {
+            position: "right",
+            beginAtZero: true,
+            max: 100,
+            title: { display: true, text: "% NG" },
+            grid: { drawOnChartArea: false }
+          },
+          x: {
+            title: { display: true, text: "Ngày" }
+          }
+        }
       }
-    }
+    });
+  } catch(e) {
+    console.error("Lỗi khi tạo dailyChart:", e);
+  }
+}
 
-    // Khởi tạo khi trang được tải
-    window.onload = function() {
-      recomputeCountsForShift(currentShift || "");
+// Khởi tạo khi trang được tải
+window.onload = function() {
+  recomputeCountsForShift(currentShift || "");
+  renderTable();
+  updateChart();
+  loadPrinterConfig();
+
+  // Thêm event listeners cho loại máy in
+  document.querySelectorAll('input[name="printerType"]').forEach(radio => {
+    radio.addEventListener('change', updatePrinterTypeUI);
+  });
+
+  document.getElementById("deliveryQty").addEventListener("input", ()=>{
+    deliveryTarget = parseInt(document.getElementById("deliveryQty").value) || 0;
+    deliveryCounter = 0;
+    if (deliveryTarget > 0) {
+      document.getElementById("deliveryStatus").textContent = `🔄 Đã đặt mục tiêu: ${deliveryTarget}`;
+    } else {
+      document.getElementById("deliveryStatus").textContent = "";
+    }
+  });
+
+  window.addEventListener("storage", (event) => {
+    if (event.key === "records") {
+      records = JSON.parse(event.newValue || "[]");
       renderTable();
-      updateChart();
-      loadPrinterConfig();
-
-      // Thêm event listeners cho loại máy in
-      document.querySelectorAll('input[name="printerType"]').forEach(radio => {
-        radio.addEventListener('change', updatePrinterTypeUI);
-      });
-
-      document.getElementById("deliveryQty").addEventListener("input", ()=>{
-        deliveryTarget = parseInt(document.getElementById("deliveryQty").value) || 0;
-        deliveryCounter = 0;
-        if (deliveryTarget > 0) {
-          document.getElementById("deliveryStatus").textContent = `🔄 Đã đặt mục tiêu: ${deliveryTarget}`;
-        } else {
-          document.getElementById("deliveryStatus").textContent = "";
-        }
-      });
-
-      window.addEventListener("storage", (event) => {
-        if (event.key === "records") {
-          records = JSON.parse(event.newValue || "[]");
-          renderTable();
-          recomputeCountsForShift(currentShift || "");
-        }
-      });
+      recomputeCountsForShift(currentShift || "");
     }
-  </script>
+  });
+}
+
+// Thêm các hàm còn thiếu
+function simulatePrintSuccess(button) {
+  const overlay = button.closest('div[style*="position: fixed"]');
+  
+  button.innerHTML = '🖨️ Đang in...';
+  button.style.background = '#f39c12';
+  button.disabled = true;
+  
+  setTimeout(() => {
+    button.innerHTML = '✅ In thành công!';
+    button.style.background = '#27ae60';
+    
+    const successMsg = document.createElement('div');
+    successMsg.style.cssText = `
+      background: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+      text-align: center;
+      border: 1px solid #c3e6cb;
+    `;
+    successMsg.innerHTML = '🎉 QR code đã được in thành công!';
+    
+    button.parentNode.insertBefore(successMsg, button);
+    
+    setTimeout(() => {
+      if (overlay.closePrinter) overlay.closePrinter();
+    }, 2000);
+  }, 1500);
+}
+
+function closeVirtualPrinter(button) {
+  const overlay = button.closest('div[style*="position: fixed"]');
+  if (overlay && overlay.closePrinter) overlay.closePrinter();
+}
+
+function copyZPLCode() {
+  const textarea = document.getElementById('zplCodeTextarea');
+  if (textarea) {
+    textarea.select();
+    document.execCommand('copy');
+    showPrintingStatus('✅ Đã copy ZPL code!', 'success');
+  }
+}
+
+function closeFallback() {
+  const overlay = document.querySelector('div[style*="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8)"]');
+  if (overlay) {
+    document.body.removeChild(overlay);
+  }
+}
+</script>
 </body>
 </html>
